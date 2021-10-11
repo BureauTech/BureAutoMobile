@@ -6,7 +6,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import Advertisement from "../../components/Advertisement/Advertisement";
 import Loading from "../../components/Loading/Loading";
 
-export default function MyAdvertisements() {
+export default function MyAdvertisements({ navigation }) {
   const [user, setUser] = useAuth();
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(false);
