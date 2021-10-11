@@ -15,7 +15,7 @@ export default function MyAdvertisements({ navigation }) {
   function getAdsByUser() {
     setLoading(true);
     api
-      .get(`/advertisement/all/${user.use_cod}`)
+      .get(`/advertisement/allAdsByUser/${user.use_cod}`)
       .then((res) => {
         setData(res.data.data);
         setRefresh(false);

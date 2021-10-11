@@ -84,7 +84,13 @@ export default function Advertisement({ route, navigation }) {
           </View>
 
           <View style={styles.buttonContainer}>
-            <TouchableOpacity style={styles.buttonContact} activeOpacity={0.7}>
+            <TouchableOpacity
+              style={styles.buttonContact}
+              activeOpacity={0.7}
+              onPress={() =>
+                Alert.alert("Essa função não foi desenvolvida ainda!")
+              }
+            >
               <Text style={styles.text}>Entrar em contato</Text>
             </TouchableOpacity>
           </View>

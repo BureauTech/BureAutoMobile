@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Login from "../Login/Login";
 import { useAuth } from "../../contexts/AuthContext";
 
@@ -8,7 +8,11 @@ export default function SendReports({ navigation }) {
   if (!user) return <Login navigation={navigation} />;
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.buttonSend} activeOpacity={0.7}>
+      <TouchableOpacity
+        style={styles.buttonSend}
+        activeOpacity={0.7}
+        onPress={() => Alert.alert("Essa função não foi desenvolvida ainda!")}
+      >
         <Text style={styles.text}>Enviar relatórios por email</Text>
       </TouchableOpacity>
     </View>

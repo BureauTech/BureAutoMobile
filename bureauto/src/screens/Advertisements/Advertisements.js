@@ -13,7 +13,7 @@ export default function Advertisements({ navigation }) {
   function getAds() {
     setLoading(true);
     api
-      .get("/advertisement/all")
+      .get("/advertisement/all/1")
       .then((res) => {
         setData(res.data.data);
         setRefresh(false);
