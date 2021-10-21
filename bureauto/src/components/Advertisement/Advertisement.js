@@ -36,16 +36,17 @@ export default function Advertisement({ onPress, navigation, ad }) {
 
         <View style={styles.containerInfs}>
           <View>
-            <Text style={styles.textPrice}>
-              R$ {ad.adv_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
-            </Text>
+            
             {!ad.Manufacturer ? (
               <></>
             ) : (
-              <Text style={styles.textInfs}>
+              <Text style={styles.textInfs} numberOfLines={1}>
                 {ad.Manufacturer.man_name} | {ad.adv_model_description}
               </Text>
             )}
+            <Text style={styles.textPrice}>
+              R$ {ad.adv_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+            </Text>
           </View>
           {/*<View>
             <Icon
@@ -66,21 +67,25 @@ export default function Advertisement({ onPress, navigation, ad }) {
 const styles = StyleSheet.create({
   container: {
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "space-around",
     height: "auto",
     width: "100%",
     backgroundColor: "#fff",
-    borderRadius: 40,
+    borderRadius: 20,
     padding: 3,
-    marginBottom: 10,
+    //marginBottom: 10,
+    flexDirection: "row",
+    marginVertical: 5
   },
   containerImage: {
-    justifyContent: "flex-start",
-    marginBottom: 10,
+    justifyContent: "center",
+    alignContent: "center",
+    //marginBottom: 10,
+    width: "35%"
   },
   image: {
-    width: Dimensions.get("window").width * 0.75,
-    height: Dimensions.get("window").height * 0.2,
+    width: Dimensions.get("window").width * 0.3,
+    height: Dimensions.get("window").height * 0.1,
     borderRadius: 10,
   },
   textPrice: {
@@ -90,10 +95,10 @@ const styles = StyleSheet.create({
   },
   textInfs: {
     fontSize: 20,
-    color: "#2a6484",
+    color: "#2a6484"
   },
   containerInfs: {
-    width: "100%",
+    width: "60%",
     alignItems: "center",
     justifyContent: "space-between",
     padding: 5,
