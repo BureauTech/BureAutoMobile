@@ -16,8 +16,10 @@ import Loading from "../../components/Loading/Loading";
 
 const logo = require("../../../assets/logo.png");
 import { useServer } from "../../contexts/ServerContext";
+import { useAuth } from "../../contexts/AuthContext";
 
 export default function Advertisement({ route, navigation }) {
+  const [user, setUser] = useAuth();
   const { ad } = route.params;
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
@@ -34,6 +36,23 @@ export default function Advertisement({ route, navigation }) {
       .catch((err) => {
         Alert.alert("Houve um erro ao tentar obter os anúncios!");
       });
+  }
+
+  function createChat() {
+    if (!user) {
+      Alert.alert("Você precisa fazer login para entrar em contato!");
+    } else {
+      api
+        .post("/chat/create", { adv_cod: ad.adv_cod })
+        .then((res) => {
+          if (res.data.success) {
+            navigation.navigate("Chat", { chat: res.data.data, ad: ad });
+          } else {
+            Alert.alert("Erro ao tentar entrar em contato!");
+          }
+        })
+        .catch((err) => Alert.alert("Erro!"));
+    }
   }
 
   useEffect(() => {
@@ -88,7 +107,8 @@ export default function Advertisement({ route, navigation }) {
               style={styles.buttonContact}
               activeOpacity={0.7}
               onPress={() =>
-                Alert.alert("Essa função não foi desenvolvida ainda!")
+                //Alert.alert("Essa função não foi desenvolvida ainda!")
+                createChat()
               }
             >
               <Text style={styles.text}>Entrar em contato</Text>

@@ -1,143 +1,106 @@
-import React, {
-  useEffect,
-  useCallback,
-  useState
-} from "react";
-import {
-  View,
-  StyleSheet,
-} from "react-native";
-import io from "socket.io-client";
+import React, { useEffect, useCallback, useState } from "react";
+import { Alert, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+// import io from "socket.io-client";
+import { Icon } from "react-native-elements";
 
-const socket = io("http://192.168.100.6:3007");
+// const socket = io("http://192.168.100.6:3007");
 
 import { useAuth } from "../../contexts/AuthContext";
 import { GiftedChat } from "react-native-gifted-chat";
+import api from "../../services/api";
 
-export default function Chat() {
+export default function Chat({ route, navigation }) {
+  const { chat, ad } = route.params;
   const [user, setUser] = useAuth();
-  const messages = [
-    {
-      mes_cod: 1,
-      mes_use_cod: 2,
-      mes_cha_cod: 1,
-      mes_text: "oi. como vai?",
-    },
-    {
-      mes_cod: 2,
-      mes_use_cod: 1,
-      mes_cha_cod: 1,
-      mes_text: "vou bem meu chegado",
-    },
-    {
-      mes_cod: 3,
-      mes_use_cod: 2,
-      mes_cha_cod: 1,
-      mes_text: "esse veiculo ai ta top?",
-    },
-    {
-      mes_cod: 4,
-      mes_use_cod: 2,
-      mes_cha_cod: 1,
-      mes_text: "sem nada pra fazer?",
-    },
-    {
-      mes_cod: 5,
-      mes_use_cod: 1,
-      mes_cha_cod: 1,
-      mes_text: "é só pegar e andar, nunca me deu problemas",
-    },
-    {
-      mes_cod: 10,
-      mes_use_cod: 2,
-      mes_cha_cod: 1,
-      mes_text: "beleza e qual o valor dele",
-    },
-    {
-      mes_cod: 6,
-      mes_use_cod: 1,
-      mes_cha_cod: 1,
-      mes_text: "o valor é inestimável, mas o preço é esse aí do anúncio mesmo",
-    },
-    {
-      mes_cod: 7,
-      mes_use_cod: 2,
-      mes_cha_cod: 1,
-      mes_text: "okkkki",
-    },
-    {
-      mes_cod: 8,
-      mes_use_cod: 1,
-      mes_cha_cod: 1,
-      mes_text: "ta interessado?",
-    },
-    {
-      mes_cod: 9,
-      mes_use_cod: 2,
-      mes_cha_cod: 1,
-      mes_text: "to sim",
-    },
-    {
-      mes_cod: 16,
-      mes_use_cod: 1,
-      mes_cha_cod: 1,
-      mes_text: "ok entao",
-    },
-    {
-      mes_cod: 88,
-      mes_use_cod: 1,
-      mes_cha_cod: 1,
-      mes_text: "mas nao posso falar agr",
-    },
-    {
-      mes_cod: 99,
-      mes_use_cod: 2,
-      mes_cha_cod: 1,
-      mes_text: "ok. fico no aguardo",
-    },
-  ];
-  const [chatMessage, setChatMessage] = useState("");
+
   const [chatMessages, setChatMessages] = useState([]);
 
-  useEffect(() => {
-    setChatMessages(
-      messages.map(function (item) {
-        return {
-          _id: item.mes_cod,
-          text: item.mes_text,
-          createdAt: new Date(),
-          user: {
-            _id: user.use_cod,
-            name: "caique",
-          },
-        };
+  function getMessages() {
+    api
+      .get(`/message/messages/${chat.cha_cod}`)
+      .then((res) => {
+        setChatMessages(
+          res.data.data.map(function (item) {
+            return {
+              _id: item.mes_cod,
+              text: item.mes_text,
+              createdAt: item.mes_created_at,
+              user: {
+                _id: item.mes_use_cod,
+              },
+            };
+          })
+        );
       })
-    );
-
-    socket.on("chat message", (msg) => {
-      setChatMessages([...chatMessages, msg]);
-    });
-  }, []);
+      .catch((err) => {
+        Alert.alert("erro");
+      });
+  }
 
   const onSend = useCallback((messages = []) => {
+    // socket.emit("chat message", {
+    //   chat_cod: chat.cha_cod,
+    //   message: messages[0],
+    // });
+
     setChatMessages((previousMessages) =>
       GiftedChat.append(previousMessages, messages)
     );
+    api
+      .post("/message/create", {
+        chat_cod: chat.cha_cod,
+        message: messages[0].text,
+      })
+      .then((res) => {})
+      .catch((err) => Alert.alert("Erro ao enviar a mensagem"));
+  }, []);
+
+  useEffect(() => {
+    getMessages();
+
+    //  socket.on("chat message", (msg) => {
+    //    console.log(msg)
+    //    console.log(chatMessages)
+    //    setChatMessages((previousMessages) =>
+    //      GiftedChat.append(previousMessages, msg)
+    //    );
+    //  });
   }, []);
 
   return (
     <View style={styles.container}>
-      <View style={styles.messages}>
-        <GiftedChat
-          messages={chatMessages}
-          showAvatarForEveryMessage={true}
-          onSend={(messages) => onSend(messages)}
-          user={{
-            _id: user.use_cod,
-            name: user.use_name,
-          }}
-        />
+      <View style={styles.infoAd}>
+        <TouchableOpacity
+          style={styles.iconContainer}
+          onPress={() => navigation.goBack()}
+        >
+          <Icon name="arrow-back" size={40} color="#2a6484" />
+        </TouchableOpacity>
+        <View style={styles.infoAdContainer}>
+          <Text style={styles.text}>
+            {!chat.adv_model_description
+              ? ad.adv_model_description
+              : chat.adv_model_description}
+          </Text>
+          <Text style={styles.text}>
+            R${" "}
+            {!chat.adv_value
+              ? ad.adv_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+              : chat.adv_value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
+          </Text>
+        </View>
       </View>
+      <GiftedChat
+        messagesContainerStyle={styles.messagesContainer}
+        placeholder="Digite uma mensagem..."
+        messages={chatMessages}
+        showAvatarForEveryMessage={true}
+        onSend={(messages) => onSend(messages)}
+        user={{
+          _id: user.use_cod,
+          name: user.use_name,
+        }}
+      />
     </View>
   );
 }
@@ -145,18 +108,35 @@ export default function Chat() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-around",
+  },
+  infoAd: {
+    height: "10%",
+    //padding: 5,
+    flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    marginBottom: 20,
-    marginTop: 20,
-    borderRadius: 50,
+    borderBottomWidth: 2,
+    borderBottomColor: "#2a6484",
+    marginTop: 10,
+  },
+  text: {
+    fontWeight: "bold",
+    fontSize: 20,
+    color: "#2a6484",
+  },
+  messagesContainer: {
+    //borderWidth: 2,
+    //borderColor: "#2a6484"
+  },
+  iconContainer: {
+    width: "auto",
+    justifyContent: "center",
     height: "100%",
   },
-  messages: {
-    backgroundColor: "#fff",
-    width: "100%",
-    height: "90%",
-    maxHeight: "90%",
-    marginTop: 20,
-  }
+  infoAdContainer: {
+    width: "90%",
+    alignItems: "center",
+    justifyContent: "center",
+  },
 });

@@ -68,7 +68,7 @@ export default function Advertisements({ navigation }) {
     getAds();
   }, []);
 
-  if (loading) return <Loading />;
+  //if (loading) return <Loading />;
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>

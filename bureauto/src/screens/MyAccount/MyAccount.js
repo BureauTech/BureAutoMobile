@@ -48,6 +48,19 @@ export default function MyAccount({ navigation }) {
         />
         <Text style={styles.text}>Meus Anúncios</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttonInf}
+        onPress={() => navigation.navigate("Chats")}
+      >
+        <Icon
+          name="chat"
+          type="material"
+          color="#2a6484"
+          style={styles.icon}
+        />
+        <Text style={styles.text}>Mensagens</Text>
+      </TouchableOpacity>
     </View>
   );
 }

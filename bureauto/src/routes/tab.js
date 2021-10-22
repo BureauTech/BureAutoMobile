@@ -7,7 +7,7 @@ const Tab = createBottomTabNavigator();
 import Advertisements from "../screens/Advertisements/Advertisements";
 import SendReports from "../screens/SendReports/SendReports";
 import MyAccount from "../screens/MyAccount/MyAccount";
-import Chats from "../screens/Chats/Chats";
+// import Chats from "../screens/Chats/Chats";
 
 export default function MyTabs() {
   return (
@@ -32,7 +32,7 @@ export default function MyTabs() {
         }}
       />
 
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Chats"
         component={Chats}
         options={{
@@ -42,7 +42,7 @@ export default function MyTabs() {
             return <Icon name="chat" type="material" color="#2a6484" />;
           },
         }}
-      />
+      /> */}
 
       <Tab.Screen
         name="SendReports"

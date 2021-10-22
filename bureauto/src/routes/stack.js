@@ -11,10 +11,11 @@ import MyFavorites from "../screens/MyFavorites/MyFavorites";
 import MyAdvertisements from "../screens/MyAdvertisements/MyAdvertisements";
 import SetUrlServer from "../screens/SetUrlServer/SetUrlServer";
 import Chat from "../screens/Chat/Chat";
+import Chats from "../screens/Chats/Chats";
 
 export default function StackCustom() {
   return (
-    <Stack.Navigator initialRouteName="Tab">
+    <Stack.Navigator initialRouteName="SetUrlServer">
       <Stack.Screen
         name="SetUrlServer"
         component={SetUrlServer}
@@ -60,6 +61,12 @@ export default function StackCustom() {
           options={{ headerShown: false }}
           name="Chat"
           component={Chat}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="Chats"
+          component={Chats}
         />
       </Stack.Group>
     </Stack.Navigator>

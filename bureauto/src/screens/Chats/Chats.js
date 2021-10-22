@@ -1,18 +1,40 @@
-import React from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
+import React, { useEffect, useState } from "react";
+import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
 
 import ChatSelect from "../../components/ChatSelect/ChatSelect";
 import { useAuth } from "../../contexts/AuthContext";
 import Login from "../Login/Login";
+import Loading from "../../components/Loading/Loading";
+import api from "../../services/api";
 
 export default function Chats({ navigation }) {
-  const chats = [
-    1, 2, 3, 4, 5, 4, 5, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,
-  ];
-
   const [user, setUser] = useAuth();
+  const [chats, setChats] = useState([]);
+  const [refresh, setRefresh] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  function getChats() {
+    api
+      .get("/chat/userChats")
+      .then((res) => {
+        setChats(res.data.data);
+        setRefresh(false);
+      })
+      .catch((err) => {
+        Alert.alert("Erro ao fazer a requisição!")});
+  }
+
+  function handleRefresh() {
+    //setChats([]);
+    setRefresh(true);
+    getChats();
+  }
+  useEffect(() => {
+    getChats();
+  }, []);
 
   if (!user) return <Login />;
+  //if (loading) return <Loading />;
   return (
     <View style={styles.container}>
       <View style={styles.topHeader}>
@@ -20,7 +42,7 @@ export default function Chats({ navigation }) {
       </View>
 
       <View style={styles.chatsContainer}>
-        {!chats ? (
+        {!chats || !chats.length ? (
           <View style={styles.noChat}>
             <Text style={styles.textNoChat}>
               Você não iniciou nenhuma conversa ainda {"\n"} Que tal iniciar
@@ -29,8 +51,15 @@ export default function Chats({ navigation }) {
           </View>
         ) : (
           <FlatList
+            onRefresh={() => handleRefresh()}
+            refreshing={refresh}
             data={chats}
-            renderItem={({ item }) => <ChatSelect onPress={() => navigation.navigate("Chat")}/>}
+            renderItem={({ item }) => (
+              <ChatSelect
+                chatInfo={item}
+                onPress={() => navigation.navigate("Chat", {chat: item})}
+              />
+            )}
             keyExtractor={(item, index) => index.toString()}
             showsVerticalScrollIndicator={false}
           />
@@ -43,7 +72,7 @@ export default function Chats({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "space-between",
+    //justifyContent: "space-between",
     alignItems: "center",
     borderColor: "#2A6484",
     borderWidth: 1,
@@ -71,14 +100,14 @@ const styles = StyleSheet.create({
     marginBottom: 30,
     paddingVertical: 20,
   },
-  noChat:{
-      alignItems: "center",
-      justifyContent: "center",
-      height: "100%"
+  noChat: {
+    alignItems: "center",
+    justifyContent: "center",
+    height: "100%",
   },
   textNoChat: {
-      fontSize: 18,
-      color: "#2A6484",
-      textAlign: "center"
-  }
+    fontSize: 18,
+    color: "#2A6484",
+    textAlign: "center",
+  },
 });
