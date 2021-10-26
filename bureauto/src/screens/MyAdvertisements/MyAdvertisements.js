@@ -68,14 +68,14 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#cdd8de",
+    backgroundColor: "#cdd8de"
   },
   conatinerAds: {
     width: "90%",
     height: "100%",
     marginBottom: 20,
     paddingTop: 20,
-    marginTop: 20,
+    marginTop: 30,
   },
   notAdContainer: {
     justifyContent: "center",

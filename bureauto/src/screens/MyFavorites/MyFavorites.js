@@ -76,7 +76,7 @@ const styles = StyleSheet.create({
     height: "100%",
     marginBottom: 20,
     paddingTop: 20,
-    marginTop: 20,
+    marginTop: 30,
   },
   notAdContainer: {
     justifyContent: "center",
