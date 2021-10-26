@@ -36,9 +36,10 @@ export default function Advertisement({ onPress, navigation, ad }) {
 
         <View style={styles.containerInfs}>
           <View>
-            
             {!ad.Manufacturer ? (
-              <></>
+              <Text style={styles.textInfs} numberOfLines={1}>
+                {ad.adv_model_description}
+              </Text>
             ) : (
               <Text style={styles.textInfs} numberOfLines={1}>
                 {ad.Manufacturer.man_name} | {ad.adv_model_description}
@@ -75,13 +76,13 @@ const styles = StyleSheet.create({
     padding: 3,
     //marginBottom: 10,
     flexDirection: "row",
-    marginVertical: 5
+    marginVertical: 5,
   },
   containerImage: {
     justifyContent: "center",
     alignContent: "center",
     //marginBottom: 10,
-    width: "35%"
+    width: "35%",
   },
   image: {
     width: Dimensions.get("window").width * 0.3,
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
   },
   textInfs: {
     fontSize: 20,
-    color: "#2a6484"
+    color: "#2a6484",
   },
   containerInfs: {
     width: "60%",
