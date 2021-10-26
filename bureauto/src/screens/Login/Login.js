@@ -20,7 +20,7 @@ import api from "../../services/api";
 
 const logo = require("../../../assets/logo.png");
 
-export default function Login() {
+export default function Login({ navigation, route }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [passVisible, setPassVisible] = useState(true);
   const [passIcon, setPassIcon] = useState("visibility-off");
@@ -44,12 +44,15 @@ export default function Login() {
       .post("/login", userLogin)
       .then((res) => {
         if (res.data.success) {
-          setUser(res.data.user);
+          setUser(res.data.user)
+          if(route)
+            navigation.goBack()
         } else {
           Alert.alert("Email ou senha incorretos!");
         }
       })
       .catch((err) => {
+        console.log(err)
         Alert.alert("Houve um erro ao tentar fazer login!");
       });
   }
