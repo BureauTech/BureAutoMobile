@@ -28,7 +28,7 @@ export default function MyAccount({ navigation }) {
         onPress={() => navigation.navigate("MyFavorites")}
       >
         <Icon
-          name="favorite"
+          name="star"
           type="material"
           color="#2a6484"
           style={styles.icon}
