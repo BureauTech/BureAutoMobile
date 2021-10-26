@@ -37,7 +37,7 @@ export default function ChatSelect({ onPress, chatInfo }) {
               .toString()
               .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
           </Text>
-          <Text style={styles.lastMessage}>
+          <Text style={styles.lastMessage} numberOfLines={1}>
             <Text style={styles.msgUser}>{chatInfo.use_name}</Text> : {chatInfo.last_message}
           </Text>
         </View>

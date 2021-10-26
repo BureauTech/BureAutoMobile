@@ -30,7 +30,17 @@ export default function Advertisements({ navigation }) {
         setLoading(false);
       })
       .catch((err) => {
-        Alert.alert("Houve um erro ao tentar obter os anúncios!");
+        Alert.alert(
+          "Erro!",
+          "Houve um erro ao tentar obter os anúncios!",
+          [
+            {
+              text: "Tentar novamente!",
+              onPress: () => getAds(),
+            },
+            { text: "Voltar!", onPress: () => navigation.goBack() },
+          ]
+        );
         setLoading(true);
       });
   }
@@ -47,13 +57,13 @@ export default function Advertisements({ navigation }) {
       ? api
           .get(`/advertisement/search/${term}/1`)
           .then((res) => {
-            Keyboard.dismiss()
+            Keyboard.dismiss();
             if (res.data.data.length) {
               setData(res.data.data);
               setRefresh(false);
               setLoading(false);
             } else {
-              Alert.alert("Não encontramos nenhum anúncio para sua pesquisa!")
+              Alert.alert("Não encontramos nenhum anúncio para sua pesquisa!");
             }
           })
           .catch((err) => {

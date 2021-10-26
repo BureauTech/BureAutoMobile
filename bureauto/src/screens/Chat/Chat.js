@@ -48,7 +48,7 @@ export default function Chat({ route, navigation }) {
     );
     api
       .post("/message/create", {
-        chat_cod: chat.cha_cod,
+        cha_cod: chat.cha_cod,
         message: messages[0].text,
       })
       .then((res) => {})

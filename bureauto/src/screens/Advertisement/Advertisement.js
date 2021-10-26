@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
+import { Icon } from "react-native-elements";
 
 import api from "../../services/api";
 
@@ -24,6 +25,8 @@ export default function Advertisement({ route, navigation }) {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [server, setServer] = useServer();
+  const [icon, setIcon] = useState("star-outline");
+  const [isFav, setIsFav] = useState(false);
 
   function getAd() {
     setLoading(true);
@@ -38,9 +41,37 @@ export default function Advertisement({ route, navigation }) {
       });
   }
 
+  function favorite() {
+    !isFav
+      ? api
+          .post("/favorite/register", { adv_cod: ad.adv_cod })
+          .then((res) => {
+            if (res.data.success) {
+              setIsFav(true);
+              setIcon("star");
+            }
+          })
+          .catch((err) => {})
+      : api.delete(`/favorite/${ad.adv_cod}`).then((res) => {
+          if (res.data.success) {
+            setIcon("star-outline");
+            setIsFav(false);
+          }
+        });
+  }
+
   function createChat() {
     if (!user) {
-      Alert.alert("Você precisa fazer login para entrar em contato!");
+      Alert.alert(
+        "Erro!",
+        "Você precisa fazer login para entrar em contato com o anunciante!",
+        [
+          {
+            text: "Ok",
+          },
+          { text: "Login!", onPress: () => navigation.navigate("Login", {back : true}) },
+        ]
+      );
     } else {
       api
         .post("/chat/create", { adv_cod: ad.adv_cod })
@@ -53,6 +84,18 @@ export default function Advertisement({ route, navigation }) {
         })
         .catch((err) => Alert.alert("Erro!"));
     }
+  }
+
+  if (user) {
+    api
+      .get(`/favorite/${ad.adv_cod}`)
+      .then((res) => {
+        if (res.data.data) {
+          setIsFav(true);
+          setIcon("star");
+        }
+      })
+      .then((err) => {});
   }
 
   useEffect(() => {
@@ -101,19 +144,43 @@ export default function Advertisement({ route, navigation }) {
               </Text>
             </View>
           </View>
-
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity
-              style={styles.buttonContact}
-              activeOpacity={0.7}
-              onPress={() =>
-                //Alert.alert("Essa função não foi desenvolvida ainda!")
-                createChat()
-              }
-            >
-              <Text style={styles.text}>Entrar em contato</Text>
-            </TouchableOpacity>
-          </View>
+          {!user ? (
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.buttonContact}
+                activeOpacity={0.7}
+                onPress={() => createChat()}
+              >
+                <Text style={styles.text}>Entrar em contato</Text>
+              </TouchableOpacity>
+            </View>
+          ) : (
+            <></>
+          )}
+          {user && user.use_cod != data.adv_use_cod ? (
+            <View style={styles.buttonContainer}>
+              <TouchableOpacity
+                style={styles.buttonContact}
+                activeOpacity={0.7}
+                onPress={() => createChat()}
+              >
+                <Text style={styles.text}>Entrar em contato</Text>
+              </TouchableOpacity>
+              {user && user.use_cod != ad.adv_use_cod ? (
+                <View>
+                  <Icon
+                    name={icon}
+                    color="#2a6484"
+                    onPress={() => favorite()}
+                  />
+                </View>
+              ) : (
+                <></>
+              )}
+            </View>
+          ) : (
+            <></>
+          )}
         </View>
       </ScrollView>
     </View>
@@ -125,6 +192,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "space-around",
     alignItems: "center",
+    marginTop: 30
   },
   imageContainer: {
     //height: "40%",
@@ -173,7 +241,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#2A6484",
     borderRadius: 20,
-    width: "100%",
+    width: "70%",
     alignItems: "center",
     padding: 5,
     alignItems: "center",
@@ -188,6 +256,8 @@ const styles = StyleSheet.create({
     width: "100%",
     alignItems: "center",
     marginTop: 20,
+    flexDirection: "row",
+    justifyContent: "space-around",
   },
   containerDesc: {
     marginTop: 20,
