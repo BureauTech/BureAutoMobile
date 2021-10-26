@@ -1,19 +1,20 @@
 import React, { useEffect, useCallback, useState } from "react";
 import { Alert, View, Text, StyleSheet, TouchableOpacity } from "react-native";
-// import io from "socket.io-client";
+import io from "socket.io-client";
 import { Icon } from "react-native-elements";
 
-// const socket = io("http://192.168.100.6:3007");
-
 import { useAuth } from "../../contexts/AuthContext";
+import { useServer } from "../../contexts/ServerContext";
 import { GiftedChat } from "react-native-gifted-chat";
 import api from "../../services/api";
 
 export default function Chat({ route, navigation }) {
   const { chat, ad } = route.params;
   const [user, setUser] = useAuth();
-
+  const [server, setServer] = useServer();
   const [chatMessages, setChatMessages] = useState([]);
+
+  const socket = io(server);
 
   function getMessages() {
     api
@@ -37,34 +38,26 @@ export default function Chat({ route, navigation }) {
       });
   }
 
-  const onSend = useCallback((messages = []) => {
-    // socket.emit("chat message", {
-    //   chat_cod: chat.cha_cod,
-    //   message: messages[0],
-    // });
 
-    setChatMessages((previousMessages) =>
-      GiftedChat.append(previousMessages, messages)
-    );
+  useEffect(() => {
+    socket.disconnect()
+    socket.connect()
+    getMessages();
+    socket.emit("joinRoom", chat.cha_cod);
+
+    socket.on("getMessageSent", () => getMessages());
+  }, []);
+
+  const onSend = useCallback((messages = []) => {
     api
       .post("/message/create", {
         cha_cod: chat.cha_cod,
         message: messages[0].text,
       })
-      .then((res) => {})
+      .then((res) => {
+        socket.emit("sendMessage", res.data.data);
+      })
       .catch((err) => Alert.alert("Erro ao enviar a mensagem"));
-  }, []);
-
-  useEffect(() => {
-    getMessages();
-
-    //  socket.on("chat message", (msg) => {
-    //    console.log(msg)
-    //    console.log(chatMessages)
-    //    setChatMessages((previousMessages) =>
-    //      GiftedChat.append(previousMessages, msg)
-    //    );
-    //  });
   }, []);
 
   return (
@@ -93,7 +86,7 @@ export default function Chat({ route, navigation }) {
       <GiftedChat
         messagesContainerStyle={styles.messagesContainer}
         placeholder="Digite uma mensagem..."
-        messages={chatMessages}
+        messages={chatMessages.reverse()}
         showAvatarForEveryMessage={true}
         onSend={(messages) => onSend(messages)}
         user={{

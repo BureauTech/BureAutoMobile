@@ -1,17 +1,29 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList, Alert } from "react-native";
+import io from "socket.io-client";
 
 import ChatSelect from "../../components/ChatSelect/ChatSelect";
 import { useAuth } from "../../contexts/AuthContext";
 import Login from "../Login/Login";
 import Loading from "../../components/Loading/Loading";
 import api from "../../services/api";
+import { useServer } from "../../contexts/ServerContext";
 
 export default function Chats({ navigation }) {
   const [user, setUser] = useAuth();
   const [chats, setChats] = useState([]);
   const [refresh, setRefresh] = useState(false);
-  const [loading, setLoading] = useState(true);
+  // const [loading, setLoading] = useState(true);
+  const [server, setServer] = useServer();
+
+  const socket = io(server);
+
+
+  // function connectSocket() {
+  //   chats.forEach((chat) => {
+  //     socket.emit("joinRoom", chat.cha_cod);
+  //   });
+  // }
 
   function getChats() {
     api
@@ -21,7 +33,8 @@ export default function Chats({ navigation }) {
         setRefresh(false);
       })
       .catch((err) => {
-        Alert.alert("Erro ao fazer a requisição!")});
+        Alert.alert("Erro ao fazer a requisição!");
+      });
   }
 
   function handleRefresh() {
@@ -29,8 +42,16 @@ export default function Chats({ navigation }) {
     setRefresh(true);
     getChats();
   }
+
   useEffect(() => {
+    socket.disconnect()
+    // socket.connect()
     getChats();
+    // connectSocket();
+
+    // socket.on("getMessageSent", (msg) => {
+    //   getChats();
+    // });
   }, []);
 
   if (!user) return <Login />;
@@ -57,7 +78,7 @@ export default function Chats({ navigation }) {
             renderItem={({ item }) => (
               <ChatSelect
                 chatInfo={item}
-                onPress={() => navigation.navigate("Chat", {chat: item})}
+                onPress={() => navigation.navigate("Chat", { chat: item })}
               />
             )}
             keyExtractor={(item, index) => index.toString()}
