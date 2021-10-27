@@ -122,7 +122,7 @@ export default function Advertisement({ route, navigation }) {
           </Text>
 
           <View style={styles.containerNameAd}>
-            <Text style={styles.textInf}>{data.Manufacturer.man_name} </Text>
+            <Text style={styles.textInf}>{data.man_name} </Text>
             <Text style={styles.textTitle}> {ad.adv_model_description}</Text>
           </View>
 
