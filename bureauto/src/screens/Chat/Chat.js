@@ -1,11 +1,17 @@
 import React, { useEffect, useCallback, useState } from "react";
-import { Alert, View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {
+  Alert,
+  View,
+  Text,
+  StyleSheet,
+  TouchableOpacity,
+} from "react-native";
 import io from "socket.io-client";
 import { Icon } from "react-native-elements";
 
 import { useAuth } from "../../contexts/AuthContext";
 import { useServer } from "../../contexts/ServerContext";
-import { GiftedChat } from "react-native-gifted-chat";
+import { GiftedChat, Send } from "react-native-gifted-chat";
 import api from "../../services/api";
 
 export default function Chat({ route, navigation }) {
@@ -38,10 +44,8 @@ export default function Chat({ route, navigation }) {
       });
   }
 
-
   useEffect(() => {
-    socket.disconnect()
-    socket.connect()
+    socket.connect();
     getMessages();
     socket.emit("joinRoom", chat.cha_cod);
 
@@ -93,6 +97,13 @@ export default function Chat({ route, navigation }) {
           _id: user.use_cod,
           name: user.use_name,
         }}
+        renderSend={(props) => {
+          return (
+            <Send {...props} containerStyle={styles.sendContainer}>
+              <Icon name="send" color="#2a6484"/>
+            </Send>
+          );
+        }}
       />
     </View>
   );
@@ -131,5 +142,11 @@ const styles = StyleSheet.create({
     width: "90%",
     alignItems: "center",
     justifyContent: "center",
+  },
+  sendContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    alignSelf: "center",
+    marginRight: 15,
   },
 });
