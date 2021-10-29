@@ -12,6 +12,7 @@ import MyAdvertisements from "../screens/MyAdvertisements/MyAdvertisements";
 import SetUrlServer from "../screens/SetUrlServer/SetUrlServer";
 import Chat from "../screens/Chat/Chat";
 import Chats from "../screens/Chats/Chats";
+import ChangePassword from "../screens/ChangePassword/ChangePassword";
 
 export default function StackCustom() {
   return (
@@ -62,11 +63,16 @@ export default function StackCustom() {
           name="Chat"
           component={Chat}
         />
-
         <Stack.Screen
           options={{ headerShown: false }}
           name="Chats"
           component={Chats}
+        />
+
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ChangePassword"
+          component={ChangePassword}
         />
       </Stack.Group>
     </Stack.Navigator>

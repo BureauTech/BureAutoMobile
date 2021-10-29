@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useLayoutEffect} from "react";
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { Icon } from "react-native-elements";
 import { useAuth } from "../../contexts/AuthContext";
@@ -7,7 +7,7 @@ import Login from "../Login/Login";
 export default function MyAccount({ navigation }) {
   const [user, setUser] = useAuth();
 
-  if (!user) return <Login />;
+  if (!user) return <Login navigation={navigation}/>;
   return (
     <View style={styles.container}>
       <TouchableOpacity

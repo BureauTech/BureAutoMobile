@@ -11,7 +11,7 @@ import {
   Image,
   Modal,
   Alert,
-  Pressable,
+  Pressable
 } from "react-native";
 import { Icon } from "react-native-elements";
 import { useAuth } from "../../contexts/AuthContext";
@@ -20,7 +20,7 @@ import api from "../../services/api";
 
 const logo = require("../../../assets/logo.png");
 
-export default function Login({ navigation, route }) {
+export default function Login({ route, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [passVisible, setPassVisible] = useState(true);
   const [passIcon, setPassIcon] = useState("visibility-off");
@@ -34,6 +34,7 @@ export default function Login({ navigation, route }) {
       ? setPassIcon("visibility")
       : setPassIcon("visibility-off");
   }
+
   function handleSignIn() {
     const userLogin = {
       email,
@@ -45,8 +46,14 @@ export default function Login({ navigation, route }) {
       .then((res) => {
         if (res.data.success) {
           setUser(res.data.user)
-          if(route)
+          if(res.data.user.use_is_temp_password) {
+            navigation.navigate("ChangePassword")
+            setUser("")
+          } else {
+            if(route)
             navigation.goBack()
+          }
+          
         } else {
           Alert.alert("Email ou senha incorretos!");
         }
