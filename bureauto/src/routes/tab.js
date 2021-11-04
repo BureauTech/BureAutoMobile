@@ -5,9 +5,7 @@ import { Icon } from "react-native-elements";
 const Tab = createBottomTabNavigator();
 
 import Advertisements from "../screens/Advertisements/Advertisements";
-import SendReports from "../screens/SendReports/SendReports";
 import MyAccount from "../screens/MyAccount/MyAccount";
-// import Chats from "../screens/Chats/Chats";
 
 export default function MyTabs() {
   return (
@@ -28,30 +26,6 @@ export default function MyTabs() {
           headerShown: false,
           tabBarIcon: () => {
             return <Icon name="directions-car" color="#2a6484" />;
-          },
-        }}
-      />
-
-      {/* <Tab.Screen
-        name="Chats"
-        component={Chats}
-        options={{
-          title: "Mensagens",
-          headerShown: false,
-          tabBarIcon: () => {
-            return <Icon name="chat" type="material" color="#2a6484" />;
-          },
-        }}
-      /> */}
-
-      <Tab.Screen
-        name="SendReports"
-        component={SendReports}
-        options={{
-          title: "Envio Relatórios",
-          headerShown: false,
-          tabBarIcon: () => {
-            return <Icon name="mail-outline" type="material" color="#2a6484" />;
           },
         }}
       />

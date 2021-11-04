@@ -2,16 +2,28 @@ import React from "react";
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from "react-native";
 import Login from "../Login/Login";
 import { useAuth } from "../../contexts/AuthContext";
+import api from "../../services/api";
 
 export default function SendReports({ navigation }) {
   const [user, setUser] = useAuth();
+
+  function send() {
+    api.get("/report/send")
+    .then(res => {
+      if(res.data.sucess)
+        Alert.alert("Sucesso! \nConfira seu email para ver o relatório!")
+    })
+    .catch(err => {
+      Alert.alert("Erro! \nHouve um erro ao fazer a requisição!")
+    })
+  }
   if (!user) return <Login navigation={navigation} />;
   return (
     <View style={styles.container}>
       <TouchableOpacity
         style={styles.buttonSend}
         activeOpacity={0.7}
-        onPress={() => Alert.alert("Essa função não foi desenvolvida ainda!")}
+        onPress={() => send()}
       >
         <Text style={styles.text}>Enviar relatórios por email</Text>
       </TouchableOpacity>

@@ -61,6 +61,19 @@ export default function MyAccount({ navigation }) {
         />
         <Text style={styles.text}>Mensagens</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        style={styles.buttonInf}
+        onPress={() => navigation.navigate("SendReports")}
+      >
+        <Icon
+          name="send"
+          type="material"
+          color="#2a6484"
+          style={styles.icon}
+        />
+        <Text style={styles.text}>Relatórios</Text>
+      </TouchableOpacity>
     </View>
   );
 }

@@ -14,6 +14,7 @@ import Chat from "../screens/Chat/Chat";
 import Chats from "../screens/Chats/Chats";
 import ChangePassword from "../screens/ChangePassword/ChangePassword";
 import ForgotPassword from "../screens/ForgotPassword/ForgotPassword";
+import SendReports from "../screens/SendReports/SendReports";
 
 export default function StackCustom() {
   return (
@@ -79,6 +80,11 @@ export default function StackCustom() {
           options={{ headerShown: false }}
           name="ForgotPassword"
           component={ForgotPassword}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="SendReports"
+          component={SendReports}
         />
       </Stack.Group>
     </Stack.Navigator>
