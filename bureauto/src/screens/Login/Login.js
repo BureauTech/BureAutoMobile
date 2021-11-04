@@ -124,7 +124,7 @@ export default function Login({ route, navigation }) {
               >
                 <Icon name={passIcon} type="material" color="#2A6484" />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonPass} activeOpacity={0.9}>
+              <TouchableOpacity style={styles.buttonPass} activeOpacity={0.9} onPress={() => navigation.navigate("ForgotPassword")}>
                 <Text style={styles.text}>Esqueci a senha</Text>
               </TouchableOpacity>
             </View>

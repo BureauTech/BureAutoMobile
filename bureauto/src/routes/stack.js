@@ -13,6 +13,7 @@ import SetUrlServer from "../screens/SetUrlServer/SetUrlServer";
 import Chat from "../screens/Chat/Chat";
 import Chats from "../screens/Chats/Chats";
 import ChangePassword from "../screens/ChangePassword/ChangePassword";
+import ForgotPassword from "../screens/ForgotPassword/ForgotPassword";
 
 export default function StackCustom() {
   return (
@@ -73,6 +74,11 @@ export default function StackCustom() {
           options={{ headerShown: false }}
           name="ChangePassword"
           component={ChangePassword}
+        />
+        <Stack.Screen
+          options={{ headerShown: false }}
+          name="ForgotPassword"
+          component={ForgotPassword}
         />
       </Stack.Group>
     </Stack.Navigator>

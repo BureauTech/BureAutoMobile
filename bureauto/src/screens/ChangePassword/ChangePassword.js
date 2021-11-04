@@ -6,12 +6,12 @@ import {
   TextInput,
   TouchableOpacity,
   Image,
-  Alert
+  Alert,
 } from "react-native";
 import { Icon } from "react-native-elements";
 const logo = require("../../../assets/logo.png");
 
-import api from "../../services/api"
+import api from "../../services/api";
 
 export default function ChangePassword({ route, navigation }) {
   const [passVisible, setPassVisible] = useState(true);
@@ -19,6 +19,18 @@ export default function ChangePassword({ route, navigation }) {
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
   const [passDiff, setPassDiff] = useState(false);
+  const [passWeak, setPassWeak] = useState(false);
+
+  function validadePass() {
+    return (
+      password.match(/[A-Z]/g) &&
+      password.match(/[a-z]/g) &&
+      password.match(/\d/g) &&
+      password.match(/[!@#$*\.%]/g) &&
+      password.length >= 6 &&
+      password.length <= 16
+    );
+  }
 
   function showPass() {
     passVisible ? setPassVisible(false) : setPassVisible(true);
@@ -31,24 +43,27 @@ export default function ChangePassword({ route, navigation }) {
     if (password != password1 || (password || password1).length <= 4) {
       setPassDiff(true);
     } else {
-        const form = new FormData()
-        form.append("newPassword", password)
-        api.post("/reset-password/change", form)
-        .then(res => {
-          if(res.data.success){
+      if (validadePass(password)) {
+        const form = new FormData();
+        form.append("newPassword", password);
+        api.post("/reset-password/change", form).then((res) => {
+          if (res.data.success) {
             Alert.alert(
               "Senha alterada!",
               "Sua senha foi alterada com sucesso!",
               [
                 {
                   text: "Ok",
-                }
+                },
               ]
-            )
-            navigation.goBack()
+            );
+            navigation.navigate("Tab");
           }
-        })
-        
+        });
+      } else {
+        setPassWeak(true);
+        Alert.alert("Senha fraca");
+      }
     }
   }
 
@@ -58,7 +73,21 @@ export default function ChangePassword({ route, navigation }) {
         <Image style={styles.logo} source={logo} />
       </View>
 
-      <Text style={styles.text}>Você está usando uma senha temporária!{"\n"}Altere sua senha!</Text>
+      <Text style={styles.text}>
+        Você está usando uma senha temporária!{"\n"}Altere sua senha!
+      </Text>
+
+      {passWeak ? (
+        <View style={{ alignItems: "center" }}>
+          <Text style={styles.passLikeTitle}>Sua senha deve possuir:</Text>
+          <Text style={styles.passLike}>
+            Um símbolo (!@#$*.%){"\n"} Tamanho entre 6 e 16 caracteres{"\n"}
+            Pelo menos uma letra maiúscula e uma minúscula{" "}
+          </Text>
+        </View>
+      ) : (
+        <></>
+      )}
 
       <View style={styles.containerInput}>
         <TextInput
@@ -71,6 +100,7 @@ export default function ChangePassword({ route, navigation }) {
           onChangeText={(text) => {
             setPassword(text);
             setPassDiff(false);
+            setPassWeak(false);
           }}
         />
         <TouchableOpacity
@@ -95,6 +125,7 @@ export default function ChangePassword({ route, navigation }) {
           onChangeText={(text) => {
             setPassword1(text);
             setPassDiff(false);
+            setPassWeak(false);
           }}
         />
       </View>
@@ -146,7 +177,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: "#2a6484",
-    textAlign: "center"
+    textAlign: "center",
   },
   button: {
     borderWidth: 1,
@@ -158,7 +189,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonPass: {
-   // marginTop: 20,
+    // marginTop: 20,
     //padding: 10,
   },
   txtPassDiff: {
@@ -172,7 +203,14 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderColor: "#2a6484",
     borderRadius: 20,
-    alignItems: "center"
-
+    alignItems: "center",
+  },
+  passLike: {
+    textAlign: "center",
+    color: "red",
+  },
+  passLikeTitle: {
+    color: "#2a6484",
+    fontSize: 16,
   },
 });
