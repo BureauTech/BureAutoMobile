@@ -23,7 +23,7 @@ export default function Advertisements({ navigation }) {
   function getAds() {
     setLoading(true);
     api
-      .get("/advertisement/all/1")
+      .get("/advertisement/all")
       .then((res) => {
         setData(res.data.data);
         setRefresh(false);
@@ -55,7 +55,7 @@ export default function Advertisements({ navigation }) {
     setLoading(true);
     term
       ? api
-          .get(`/advertisement/search/${term}/1`)
+          .get(`/advertisement/search/${JSON.stringify({term: term})}`)
           .then((res) => {
             Keyboard.dismiss();
             if (res.data.data.length) {
