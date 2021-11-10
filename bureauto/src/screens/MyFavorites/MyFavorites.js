@@ -92,7 +92,6 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   textNotAd: {
-    fontFamily: "Roboto",
     fontSize: 20,
     color: "#2a6484",
     fontWeight: "bold",

@@ -23,7 +23,7 @@ export default function Advertisements({ navigation }) {
   const [textValue, setTextValue] = useState("");
   const [paginationPages, setPaginationPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(15);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   function getAds(curPage) {
     setLoading(true);
@@ -149,7 +149,7 @@ export default function Advertisements({ navigation }) {
               disabled={currentPage === 1}
               onPress={() => getAds(currentPage - 1)}
             >
-              <Text>{"<"}</Text>
+              <Text style={{height: 18}}>{"<"}</Text>
             </TouchableOpacity>
             {pagination().map(function (page, index) {
               return (
@@ -162,7 +162,7 @@ export default function Advertisements({ navigation }) {
                     getAds(page);
                   }}
                 >
-                  <Text>{page}</Text>
+                  <Text style={{height: 18}}>{page}</Text>
                 </TouchableOpacity>
               );
             })}
@@ -171,7 +171,7 @@ export default function Advertisements({ navigation }) {
               disabled={currentPage === paginationPages}
               onPress={() => getAds(currentPage + 1)}
             >
-              <Text>{">"}</Text>
+              <Text style={{height: 18}}>{">"}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
     borderColor: "#2a6484",
     borderRadius: 20,
     backgroundColor: "#fff",
-    padding: 10,
+    padding: 10
   },
   currentPageBtn: {
     borderColor: "#fff",

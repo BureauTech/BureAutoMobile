@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
     padding: 5,
   },
   text: {
-    fontFamily: "Roboto",
     fontWeight: "bold",
     fontSize: 22,
     color: "#2a6484",

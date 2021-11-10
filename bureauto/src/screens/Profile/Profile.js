@@ -99,13 +99,11 @@ const styles = StyleSheet.create({
     justifyContent: "space-around",
   },
   textTitle: {
-    fontFamily: "Roboto",
     fontWeight: "bold",
     fontSize: 20,
     color: "#2a6484",
   },
   textInf: {
-    fontFamily: "Roboto",
     fontSize: 20,
     color: "#2a6484",
     marginLeft: 10,
