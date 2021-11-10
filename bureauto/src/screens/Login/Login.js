@@ -19,6 +19,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import api from "../../services/api";
 
 const logo = require("../../../assets/logo.png");
+import ButtonBack from "../../components/ButtonBack/ButtonBack";
 
 export default function Login({ route, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -68,6 +69,7 @@ export default function Login({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
+        {route ? <ButtonBack onPress={() => navigation.goBak()}/> : <></>}
           <View style={styles.containerImg}>
             <Image style={styles.logo} source={logo} />
           </View>
@@ -162,6 +164,7 @@ const styles = StyleSheet.create({
     height: "100%",
     backgroundColor: "#fff",
     padding: 5,
+    marginTop: 10
   },
   content: {
     flex: 1,
