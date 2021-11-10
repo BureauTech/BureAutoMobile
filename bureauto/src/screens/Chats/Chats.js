@@ -8,6 +8,7 @@ import Login from "../Login/Login";
 import Loading from "../../components/Loading/Loading";
 import api from "../../services/api";
 import { useServer } from "../../contexts/ServerContext";
+import ButtonBack from "../../components/ButtonBack/ButtonBack"
 
 export default function Chats({ navigation }) {
   const [user, setUser] = useAuth();
@@ -58,6 +59,7 @@ export default function Chats({ navigation }) {
   //if (loading) return <Loading />;
   return (
     <View style={styles.container}>
+       <ButtonBack onPress={() => navigation.goBack()}/>
       <View style={styles.topHeader}>
         <Text style={styles.title}>Chats</Text>
       </View>

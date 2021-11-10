@@ -4,6 +4,8 @@ import Login from "../Login/Login";
 import { useAuth } from "../../contexts/AuthContext";
 import api from "../../services/api";
 
+import ButtonBack from "../../components/ButtonBack/ButtonBack"
+
 export default function SendReports({ navigation }) {
   const [user, setUser] = useAuth();
 
@@ -20,6 +22,8 @@ export default function SendReports({ navigation }) {
   if (!user) return <Login navigation={navigation} />;
   return (
     <View style={styles.container}>
+      <ButtonBack onPress={() => navigation.goBack()}/>
+      <View style={{ height: "90%", justifyContent: "center" }}>
       <TouchableOpacity
         style={styles.buttonSend}
         activeOpacity={0.7}
@@ -27,6 +31,7 @@ export default function SendReports({ navigation }) {
       >
         <Text style={styles.text}>Enviar relatórios por email</Text>
       </TouchableOpacity>
+      </View>
     </View>
   );
 }

@@ -6,6 +6,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import Advertisement from "../../components/Advertisement/Advertisement";
 import Loading from "../../components/Loading/Loading";
 
+import ButtonBack from "../../components/ButtonBack/ButtonBack";
+
 export default function MyAdvertisements({ navigation }) {
   const [user, setUser] = useAuth();
   const [data, setData] = useState([]);
@@ -38,6 +40,7 @@ export default function MyAdvertisements({ navigation }) {
     <View style={styles.container}>
       {data.length ? (
         <View style={styles.conatinerAds}>
+          <ButtonBack onPress={() => navigation.goBack()} />
           <FlatList
             onRefresh={() => handleRefresh()}
             refreshing={refresh}
@@ -56,7 +59,10 @@ export default function MyAdvertisements({ navigation }) {
         </View>
       ) : (
         <View style={styles.notAdContainer}>
-          <Text style={styles.textNotAd}>Voce não possui anúncios</Text>
+          <ButtonBack onPress={() => navigation.goBack()} />
+          <View style={{ height: "90%", justifyContent: "center" }}>
+            <Text style={styles.textNotAd}>Voce não possui anúncios</Text>
+          </View>
         </View>
       )}
     </View>
@@ -68,11 +74,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#cdd8de"
+    backgroundColor: "#cdd8de",
+    height: "90%",
   },
   conatinerAds: {
     width: "90%",
-    height: "100%",
+    height: "90%",
     marginBottom: 20,
     paddingTop: 20,
     marginTop: 30,

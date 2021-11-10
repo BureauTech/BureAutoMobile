@@ -19,6 +19,8 @@ const logo = require("../../../assets/logo.png");
 import { useServer } from "../../contexts/ServerContext";
 import { useAuth } from "../../contexts/AuthContext";
 
+import ButtonBack from "../../components/ButtonBack/ButtonBack"
+
 export default function Advertisement({ route, navigation }) {
   const [user, setUser] = useAuth();
   const { ad } = route.params;
@@ -105,7 +107,9 @@ export default function Advertisement({ route, navigation }) {
   if (loading) return <Loading />;
   return (
     <View style={styles.container}>
+    
       <ScrollView contentContainerStyle={styles.infContainer}>
+      <ButtonBack onPress={() => navigation.goBack()}/>
         <View style={styles.imageContainer}>
           {!data.adv_images ? (
             <Image source={logo} style={styles.image} />
@@ -265,5 +269,5 @@ const styles = StyleSheet.create({
   textDesc: {
     fontSize: 16,
     marginBottom: 20,
-  },
+  }
 });
