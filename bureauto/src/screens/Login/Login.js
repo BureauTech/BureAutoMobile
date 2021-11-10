@@ -69,7 +69,7 @@ export default function Login({ route, navigation }) {
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-        {route ? <ButtonBack onPress={() => navigation.goBak()}/> : <></>}
+        {route ? <ButtonBack onPress={() => navigation.goBack()}/> : <></>}
           <View style={styles.containerImg}>
             <Image style={styles.logo} source={logo} />
           </View>
