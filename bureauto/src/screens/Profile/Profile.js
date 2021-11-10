@@ -6,19 +6,23 @@ import {
   TouchableOpacity,
   Image,
   Dimensions,
+  ScrollView,
 } from "react-native";
 import { useAuth } from "../../contexts/AuthContext";
 
 const logo = require("../../../assets/logo.png");
+import ButtonBack from "../../components/ButtonBack/ButtonBack"
 
 export default function Profile({ navigation }) {
   const [user, setUser] = useAuth();
 
   return (
+    <ScrollView contentContainerStyle={styles.container}>
     <View style={styles.container}>
-      <View style={styles.imageConatiner}>
+      {/* <View style={styles.imageConatiner}>
         <Image source={logo} style={styles.image} />
-      </View>
+      </View> */}
+      <ButtonBack onPress={() => navigation.goBack()}/>
       <View style={styles.infsContainer}>
         <View>
           <Text style={styles.textTitle}>CNPJ/CPF</Text>
@@ -64,6 +68,7 @@ export default function Profile({ navigation }) {
         </View>
       </View>
     </View>
+    </ScrollView>
   );
 }
 

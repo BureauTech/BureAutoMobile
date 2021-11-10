@@ -11,8 +11,9 @@ import {
 } from "react-native";
 
 import api from "../../services/api";
+import ButtonBack from "../../components/ButtonBack/ButtonBack";
 
-export default function ForgotPassword({navigation}) {
+export default function ForgotPassword({ navigation }) {
   const [email, setEmail] = useState("");
 
   function resetPassword() {
@@ -23,40 +24,45 @@ export default function ForgotPassword({navigation}) {
         },
       ]);
     } else {
-      api.post("/reset-password", { email })
-      .then((res) => {
-        if (res.data.success) {
-            navigation.navigate("Tab")
-          Alert.alert("Sucesso. Verifique seu email e siga as instruções!")
-        } else {
-            Alert.alert("Email não encontrado!")
-        }
-        
-      })
-      .catch(err => Alert("Erro ao fazer a requisição!"));
+      api
+        .post("/reset-password", { email })
+        .then((res) => {
+          if (res.data.success) {
+            navigation.navigate("Tab");
+            Alert.alert("Sucesso. Verifique seu email e siga as instruções!");
+          } else {
+            Alert.alert("Email não encontrado!");
+          }
+        })
+        .catch((err) => Alert("Erro ao fazer a requisição!"));
     }
   }
   return (
     <TouchableNativeFeedback onPress={Keyboard.dismiss}>
       <View style={styles.container}>
-        <Text style={styles.text}>
-          Digite seu email para recuperar sua senha!
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="email"
-          textContentType="emailAddress"
-          autoCompleteType="email"
-          onChangeText={(e) => setEmail(e)}
-        />
-
-        <TouchableOpacity
-          style={styles.button}
-          activeOpacity={0.4}
-          onPress={() => resetPassword()}
+        <ButtonBack onPress={() => navigation.goBack()} />
+        <View
+          style={styles.subContainer}
         >
-          <Text style={styles.text}>Redefinir Senha</Text>
-        </TouchableOpacity>
+          <Text style={styles.text}>
+            Digite seu email para recuperar sua senha!
+          </Text>
+          <TextInput
+            style={styles.input}
+            placeholder="email"
+            textContentType="emailAddress"
+            autoCompleteType="email"
+            onChangeText={(e) => setEmail(e)}
+          />
+
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.4}
+            onPress={() => resetPassword()}
+          >
+            <Text style={styles.text}>Redefinir Senha</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </TouchableNativeFeedback>
   );
@@ -88,5 +94,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     borderRadius: 20,
     alignItems: "center",
+  },
+  subContainer: {
+    height: "90%",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "90%",
   },
 });
