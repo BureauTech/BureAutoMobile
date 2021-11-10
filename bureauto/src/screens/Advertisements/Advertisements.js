@@ -7,6 +7,8 @@ import {
   SafeAreaView,
   Keyboard,
   TouchableWithoutFeedback,
+  TouchableOpacity,
+  Text
 } from "react-native";
 import api from "../../services/api";
 
@@ -19,11 +21,20 @@ export default function Advertisements({ navigation }) {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [textValue, setTextValue] = useState("");
+  const [paginationPages, setPaginationPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(15);
 
-  function getAds() {
+  function getAds(curPage) {
     setLoading(true);
+    getPagination();
+    setCurrentPage(curPage || 1)
     api
-      .get("/advertisement/all")
+    .get(
+      `/advertisement/all?page=${
+        curPage || currentPage
+      }&items=${itemsPerPage}`
+    )
       .then((res) => {
         setData(res.data.data);
         setRefresh(false);
@@ -48,7 +59,8 @@ export default function Advertisements({ navigation }) {
   function handleRefresh() {
     setData([]);
     setRefresh(true);
-    getAds();
+    getPagination();
+    getAds(currentPage)
   }
 
   function searchAds(term) {
@@ -68,17 +80,37 @@ export default function Advertisements({ navigation }) {
           })
           .catch((err) => {
             Alert.alert("Houve um erro ao tentar obter os anúncios!");
-            setLoading(true);
+            handleRefresh(true);
           })
-      : Alert.alert("Digite algo para pesquisar!");
+      : getAds()
     setLoading(false);
   }
 
+  function getPagination() {
+    api
+      .get("/advertisement/pagination/quantity")
+      .then((res) => {
+        if (res.data.success) {
+          setPaginationPages(Math.ceil(res.data.data / itemsPerPage));
+        }
+      })
+      .catch((err) => console.log(err));
+  }
+
+  function pagination() {
+    let paginationList = [];
+    for (let k = 0; k < paginationPages; k++) {
+      paginationList.push(k + 1);
+    }
+    return paginationList;
+  }
+
   useEffect(() => {
+    getPagination()
     getAds();
   }, []);
 
-  //if (loading) return <Loading />;
+  if (loading) return <Loading />;
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -107,6 +139,41 @@ export default function Advertisements({ navigation }) {
               showsVerticalScrollIndicator={false}
             />
           </View>
+
+          <View style={styles.containerPagination}>
+            <TouchableOpacity
+              style={[
+                styles.btnPagination,
+                currentPage === 1 && styles.currentPageBtn,
+              ]}
+              disabled={currentPage === 1}
+              onPress={() => getAds(currentPage - 1)}
+            >
+              <Text>{"<"}</Text>
+            </TouchableOpacity>
+            {pagination().map(function (page, index) {
+              return (
+                <TouchableOpacity
+                  key={index}
+                  style={[styles.btnPagination, currentPage === page && styles.currentPageBtn]}
+                  disabled={currentPage === page}
+                  onPress={() => {
+                    setCurrentPage(page);
+                    getAds(page);
+                  }}
+                >
+                  <Text>{page}</Text>
+                </TouchableOpacity>
+              );
+            })}
+            <TouchableOpacity
+              style={[styles.btnPagination, currentPage === paginationPages && styles.currentPageBtn]}
+              disabled={currentPage === paginationPages}
+              onPress={() => getAds(currentPage + 1)}
+            >
+              <Text>{">"}</Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </TouchableWithoutFeedback>
     </SafeAreaView>
@@ -131,4 +198,20 @@ const styles = StyleSheet.create({
   searchContainer: {
     marginTop: 20,
   },
+  containerPagination: {
+    flexDirection: "row",
+    height: "5%",
+  },
+  btnPagination: {
+    justifyContent: "center",
+    borderWidth: 1,
+    marginBottom: 20,
+    borderColor: "#2a6484",
+    borderRadius: 20,
+    backgroundColor: "#fff",
+    padding: 10,
+  },
+  currentPageBtn: {
+    borderColor: "#fff",
+  }
 });
