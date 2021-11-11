@@ -1,15 +1,7 @@
 import React, { useState } from "react";
-
-import {
-  Text,
-  View,
-  StyleSheet,
-  TouchableOpacity,
-  TextInput,
-  Alert,
-} from "react-native";
+import { Text, View, TouchableOpacity, TextInput, Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-
+import styles from "./Styles";
 import api from "../../services/api";
 import { useServer } from "../../contexts/ServerContext";
 
@@ -22,7 +14,7 @@ export default function SetUrlServer({ navigation }) {
       await AsyncStorage.setItem("@urlServer", `http://${urlServer}:3000`);
       api.defaults.baseURL = `http://${urlServer}:3000`;
       setServer(`http://${urlServer}:3000`);
-    } catch (e) {}
+    } catch (e) { }
   }
 
   function Go() {
@@ -55,42 +47,3 @@ export default function SetUrlServer({ navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
-  },
-  text: {
-    fontSize: 20,
-    color: "#2a6484",
-    fontWeight: "bold",
-  },
-  button: {
-    padding: 10,
-    borderWidth: 2,
-    borderColor: "#2a6484",
-    margin: 20,
-    width: "50%",
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  input: {
-    padding: 10,
-    borderWidth: 2,
-    borderColor: "#2a6484",
-    width: "70%",
-    borderRadius: 20,
-    textAlign: "center",
-    margin: 20,
-    fontSize: 20,
-  },
-  textI: {
-    color: "red",
-    fontSize: 15,
-    fontWeight: "bold",
-    marginTop: 20,
-  },
-});

@@ -1,17 +1,7 @@
 import React, { useEffect, useState } from "react";
-import {
-  View,
-  FlatList,
-  StyleSheet,
-  Alert,
-  SafeAreaView,
-  Keyboard,
-  TouchableWithoutFeedback,
-  TouchableOpacity,
-  Text
-} from "react-native";
+import { View, FlatList, Alert, SafeAreaView, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from "react-native";
 import api from "../../services/api";
-
+import styles from "./Styles";
 import Advertisement from "../../components/Advertisement/Advertisement";
 import Loading from "../../components/Loading/Loading";
 import Search from "../../components/Search/Search";
@@ -30,11 +20,10 @@ export default function Advertisements({ navigation }) {
     getPagination();
     setCurrentPage(curPage || 1)
     api
-    .get(
-      `/advertisement/all?page=${
-        curPage || currentPage
-      }&items=${itemsPerPage}`
-    )
+      .get(
+        `/advertisement/all?page=${curPage || currentPage
+        }&items=${itemsPerPage}`
+      )
       .then((res) => {
         setData(res.data.data);
         setRefresh(false);
@@ -67,21 +56,21 @@ export default function Advertisements({ navigation }) {
     setLoading(true);
     term
       ? api
-          .get(`/advertisement/search/${JSON.stringify({term: term})}`)
-          .then((res) => {
-            Keyboard.dismiss();
-            if (res.data.data.length) {
-              setData(res.data.data);
-              setRefresh(false);
-              setLoading(false);
-            } else {
-              Alert.alert("Não encontramos nenhum anúncio para sua pesquisa!");
-            }
-          })
-          .catch((err) => {
-            Alert.alert("Houve um erro ao tentar obter os anúncios!");
-            handleRefresh(true);
-          })
+        .get(`/advertisement/search/${JSON.stringify({ term: term })}`)
+        .then((res) => {
+          Keyboard.dismiss();
+          if (res.data.data.length) {
+            setData(res.data.data);
+            setRefresh(false);
+            setLoading(false);
+          } else {
+            Alert.alert("Não encontramos nenhum anúncio para sua pesquisa!");
+          }
+        })
+        .catch((err) => {
+          Alert.alert("Houve um erro ao tentar obter os anúncios!");
+          handleRefresh(true);
+        })
       : getAds()
     setLoading(false);
   }
@@ -149,7 +138,7 @@ export default function Advertisements({ navigation }) {
               disabled={currentPage === 1}
               onPress={() => getAds(currentPage - 1)}
             >
-              <Text style={{height: 18}}>{"<"}</Text>
+              <Text style={{ height: 18 }}>{"<"}</Text>
             </TouchableOpacity>
             {pagination().map(function (page, index) {
               return (
@@ -162,7 +151,7 @@ export default function Advertisements({ navigation }) {
                     getAds(page);
                   }}
                 >
-                  <Text style={{height: 18}}>{page}</Text>
+                  <Text style={{ height: 18 }}>{page}</Text>
                 </TouchableOpacity>
               );
             })}
@@ -171,7 +160,7 @@ export default function Advertisements({ navigation }) {
               disabled={currentPage === paginationPages}
               onPress={() => getAds(currentPage + 1)}
             >
-              <Text style={{height: 18}}>{">"}</Text>
+              <Text style={{ height: 18 }}>{">"}</Text>
             </TouchableOpacity>
           </View>
         </View>
@@ -179,39 +168,3 @@ export default function Advertisements({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#cdd8de",
-    marginTop: 5,
-  },
-  conatinerAds: {
-    width: "90%",
-    height: "85%",
-    marginBottom: 20,
-    paddingTop: 20,
-    //marginTop: 20,
-  },
-  searchContainer: {
-    marginTop: 20,
-  },
-  containerPagination: {
-    flexDirection: "row",
-    height: "5%",
-  },
-  btnPagination: {
-    justifyContent: "center",
-    borderWidth: 1,
-    marginBottom: 20,
-    borderColor: "#2a6484",
-    borderRadius: 20,
-    backgroundColor: "#fff",
-    padding: 10
-  },
-  currentPageBtn: {
-    borderColor: "#fff",
-  }
-});

@@ -1,11 +1,9 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Icon } from "react-native-elements";
-
-const Tab = createBottomTabNavigator();
-
 import Advertisements from "../screens/Advertisements/Advertisements";
 import MyAccount from "../screens/MyAccount/MyAccount";
+const Tab = createBottomTabNavigator();
 
 export default function MyTabs() {
   return (

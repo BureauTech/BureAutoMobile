@@ -1,13 +1,6 @@
 import React from "react";
-import {
-  View,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  Image,
-  Dimensions,
-} from "react-native";
-
+import { View, Text, TouchableOpacity, Image } from "react-native";
+import styles from "./Styles";
 import { useServer } from "../../contexts/ServerContext";
 const logoBureau = require("../../../assets/logo.png");
 
@@ -45,39 +38,3 @@ export default function ChatSelect({ onPress, chatInfo }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    width: "100%",
-    borderBottomColor: "#2A6484",
-    borderBottomWidth: 1,
-    padding: 3
-  },
-  title: {
-    color: "#2A6484",
-    fontSize: 20,
-  },
-  price: {
-    color: "#2A6484",
-    fontSize: 20,
-    fontWeight: "bold",
-  },
-  lastMessage: {
-    color: "#2A6484",
-    fontSize: 15,
-  },
-  image: {
-    width: Dimensions.get("window").width * 0.250,
-    height: Dimensions.get("window").height * 0.1,
-    borderRadius: 10,
-  },
-  touchable: {
-    flexDirection: "row"
-  },
-  infs: {
-      marginLeft: 10
-  },
-  msgUser: {
-      fontWeight: "bold"
-  }
-});

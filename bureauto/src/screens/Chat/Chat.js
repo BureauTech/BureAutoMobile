@@ -1,14 +1,8 @@
 import React, { useEffect, useCallback, useState } from "react";
-import {
-  Alert,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Alert, View, Text, TouchableOpacity } from "react-native";
 import io from "socket.io-client";
 import { Icon } from "react-native-elements";
-
+import styles from "./Styles";
 import { useAuth } from "../../contexts/AuthContext";
 import { useServer } from "../../contexts/ServerContext";
 import { GiftedChat, Send } from "react-native-gifted-chat";
@@ -100,7 +94,7 @@ export default function Chat({ route, navigation }) {
         renderSend={(props) => {
           return (
             <Send {...props} containerStyle={styles.sendContainer}>
-              <Icon name="send" color="#2a6484"/>
+              <Icon name="send" color="#2a6484" />
             </Send>
           );
         }}
@@ -108,45 +102,3 @@ export default function Chat({ route, navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "space-around",
-  },
-  infoAd: {
-    height: "10%",
-    //padding: 5,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: 2,
-    borderBottomColor: "#2a6484",
-    marginTop: 10,
-  },
-  text: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#2a6484",
-  },
-  messagesContainer: {
-    //borderWidth: 2,
-    //borderColor: "#2a6484"
-  },
-  iconContainer: {
-    width: "auto",
-    justifyContent: "center",
-    height: "100%",
-  },
-  infoAdContainer: {
-    width: "90%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  sendContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    marginRight: 15,
-  },
-});
