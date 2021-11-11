@@ -111,7 +111,7 @@ export default function Advertisements({ navigation }) {
               onPress={() => searchAds(textValue)}
             />
           </View>
-          <View style={styles.conatinerAds}>
+          <View style={styles.containerAds}>
             <FlatList
               onRefresh={() => handleRefresh()}
               refreshing={refresh}

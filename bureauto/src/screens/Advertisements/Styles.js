@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#cdd8de",
     marginTop: 5,
   },
-  conatinerAds: {
+  containerAds: {
     width: "90%",
     height: "85%",
     marginBottom: 20,
@@ -19,7 +19,8 @@ const styles = StyleSheet.create({
   },
   containerPagination: {
     flexDirection: "row",
-    height: "5%",
+    height: "10%",
+    marginBottom: 30,
   },
   btnPagination: {
     justifyContent: "center",
@@ -28,7 +29,8 @@ const styles = StyleSheet.create({
     borderColor: "#2a6484",
     borderRadius: 20,
     backgroundColor: "#fff",
-    padding: 10
+    padding: 10,
+    height: "5%"
   },
   currentPageBtn: {
     borderColor: "#fff",
