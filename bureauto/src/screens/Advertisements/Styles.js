@@ -30,7 +30,8 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     backgroundColor: "#fff",
     padding: 10,
-    height: "5%"
+    height: "5%",
+    marginHorizontal: 3
   },
   currentPageBtn: {
     borderColor: "#fff",
