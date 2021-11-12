@@ -12,21 +12,17 @@ const styles = StyleSheet.create({
   containerAds: {
     width: "90%",
     height: "80%",
-    marginBottom: 20,
     paddingTop: 20,
-  },
-  searchContainer: {
-     //marginTop: 20,
   },
   containerPagination: {
     flexDirection: "row",
     height: "10%",
     marginBottom: 30,
+    alignItems: "center"
   },
   btnPagination: {
     justifyContent: "center",
     borderWidth: 1,
-    marginBottom: 20,
     borderColor: "#2a6484",
     borderRadius: 10,
     backgroundColor: "#fff",

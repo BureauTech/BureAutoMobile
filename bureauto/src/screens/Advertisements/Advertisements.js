@@ -104,7 +104,7 @@ export default function Advertisements({ navigation }) {
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <View style={styles.searchContainer}>
+          <View>
             <Search
               setTextValue={setTextValue}
               textValue={textValue}
