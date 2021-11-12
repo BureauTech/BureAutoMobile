@@ -25,11 +25,13 @@ export default function Advertisement({ route, navigation }) {
       .then((res) => {
         setData(res.data.data);
         setLoading(false);
+        api.put(`/advertisement/views/${ad.adv_cod}`)
       })
       .catch((err) => {
         Alert.alert("Houve um erro ao tentar obter os anúncios!");
       });
   }
+
 
   function favorite() {
     !isFav
@@ -93,7 +95,7 @@ export default function Advertisement({ route, navigation }) {
   }, []);
 
   if (loading) return <Loading />;
-  
+
   return (
     <View style={styles.container}>
 
