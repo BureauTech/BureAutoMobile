@@ -17,11 +17,9 @@ export default function Advertisements({ navigation }) {
 
   function getAds(curPage) {
     setLoading(true);
-    getPagination();
-    setCurrentPage(curPage || 1)
     api
       .get(
-        `/advertisement/all?page=${curPage || currentPage
+        `/advertisement/all?page=${curPage || 1
         }&items=${itemsPerPage}`
       )
       .then((res) => {
@@ -46,10 +44,10 @@ export default function Advertisements({ navigation }) {
   }
 
   function handleRefresh() {
+    setCurrentPage(1)
     setData([]);
     setRefresh(true);
-    getPagination();
-    getAds(currentPage)
+    getAds(1)
   }
 
   function searchAds(term) {
@@ -73,29 +71,23 @@ export default function Advertisements({ navigation }) {
         })
       : getAds()
     setLoading(false);
-  }
+      }
 
-  function getPagination() {
-    api
-      .get("/advertisement/pagination/quantity")
-      .then((res) => {
-        if (res.data.success) {
-          setPaginationPages(Math.ceil(res.data.data / itemsPerPage));
-        }
-      })
-      .catch((err) => console.log(err));
-  }
-
-  function pagination() {
-    let paginationList = [];
-    for (let k = 0; k < paginationPages; k++) {
-      paginationList.push(k + 1);
-    }
-    return paginationList;
+  function loadMoreAds() {
+    api.get(
+      `/advertisement/all?page=${currentPage+1
+      }&items=${itemsPerPage}`
+    )
+    .then(res => {
+      setData([...data, ...res.data.data]) 
+      console.log("buscou")
+      //console.log(res.data)
+      setCurrentPage(currentPage+1)
+      console.log(currentPage)
+    }).catch(err => console.log(err))
   }
 
   useEffect(() => {
-    getPagination()
     getAds();
   }, []);
 
@@ -126,42 +118,9 @@ export default function Advertisements({ navigation }) {
               )}
               keyExtractor={(item, index) => index.toString()}
               showsVerticalScrollIndicator={false}
+              onEndReached={loadMoreAds}
+              onEndReachedThreshold={0.5}
             />
-          </View>
-
-          <View style={styles.containerPagination}>
-            <TouchableOpacity
-              style={[
-                styles.btnPagination,
-                currentPage === 1 && styles.currentPageBtn,
-              ]}
-              disabled={currentPage === 1}
-              onPress={() => getAds(currentPage - 1)}
-            >
-              <Text style={{ height: 18 }}>{"<"}</Text>
-            </TouchableOpacity>
-            {pagination().map(function (page, index) {
-              return (
-                <TouchableOpacity
-                  key={index}
-                  style={[styles.btnPagination, currentPage === page && styles.currentPageBtn]}
-                  disabled={currentPage === page}
-                  onPress={() => {
-                    setCurrentPage(page);
-                    getAds(page);
-                  }}
-                >
-                  <Text style={{ height: 18 }}>{page}</Text>
-                </TouchableOpacity>
-              );
-            })}
-            <TouchableOpacity
-              style={[styles.btnPagination, currentPage === paginationPages && styles.currentPageBtn]}
-              disabled={currentPage === paginationPages}
-              onPress={() => getAds(currentPage + 1)}
-            >
-              <Text style={{ height: 18 }}>{">"}</Text>
-            </TouchableOpacity>
           </View>
         </View>
       </TouchableWithoutFeedback>

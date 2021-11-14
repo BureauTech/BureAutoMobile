@@ -11,8 +11,8 @@ const styles = StyleSheet.create({
   },
   containerAds: {
     width: "90%",
-    height: "80%",
-    paddingTop: 20,
+    height: "90%",
+    //paddingTop: 20,
   },
   containerPagination: {
     flexDirection: "row",
