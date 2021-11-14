@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, SafeAreaView, Image, Modal, Alert, Pressable } from "react-native";
 import { Icon } from "react-native-elements";
+import * as SecureStore from 'expo-secure-store';
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Styles";
 import api from "../../services/api";
@@ -33,8 +34,10 @@ export default function Login({ route, navigation }) {
       .then((res) => {
         if (res.data.success) {
           setUser(res.data.user)
+          saveLogin("bureautoLogin", JSON.stringify(res.data.user))
           if (res.data.user.use_is_temp_password) {
             navigation.navigate("ChangePassword")
+            deleteLogin("bureautoLogin")
             setUser("")
           } else {
             if (route)
@@ -49,6 +52,14 @@ export default function Login({ route, navigation }) {
         console.log(err)
         Alert.alert("Houve um erro ao tentar fazer login!");
       });
+  }
+
+  async function saveLogin(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  async function deleteLogin(key) {
+    await SecureStore.deleteItemAsync(key);
   }
 
   return (

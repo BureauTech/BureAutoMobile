@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { View, FlatList, Alert, SafeAreaView, Keyboard, TouchableWithoutFeedback, TouchableOpacity, Text } from "react-native";
+import * as SecureStore from 'expo-secure-store';
 import api from "../../services/api";
+import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Styles";
 import Advertisement from "../../components/Advertisement/Advertisement";
 import Loading from "../../components/Loading/Loading";
@@ -14,6 +16,7 @@ export default function Advertisements({ navigation }) {
   const [paginationPages, setPaginationPages] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [user, setUser] = useAuth();
 
   function getAds(curPage) {
     setLoading(true);
@@ -80,15 +83,19 @@ export default function Advertisements({ navigation }) {
     )
     .then(res => {
       setData([...data, ...res.data.data]) 
-      console.log("buscou")
-      //console.log(res.data)
       setCurrentPage(currentPage+1)
-      console.log(currentPage)
-    }).catch(err => console.log(err))
+    })
   }
 
+  async function getLoginSaved() {
+    let result = await SecureStore.getItemAsync("bureautoLogin")
+    if (result) {
+      setUser(JSON.parse(result))
+    }
+  }
   useEffect(() => {
     getAds();
+    getLoginSaved()
   }, []);
 
   if (loading) return <Loading />;

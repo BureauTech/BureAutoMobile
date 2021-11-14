@@ -1,11 +1,21 @@
 import React from "react";
 import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { useAuth } from "../../contexts/AuthContext";
+import * as SecureStore from 'expo-secure-store';
 import styles from "./Styles";
 import ButtonBack from "../../components/ButtonBack/ButtonBack"
 
 export default function Profile({ navigation }) {
   const [user, setUser] = useAuth();
+
+  function logOff() {
+    setUser(false);
+    deleteLogin("bureautoLogin")
+  }
+  async function deleteLogin(key) {
+    await SecureStore.deleteItemAsync(key);
+  }
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -50,7 +60,7 @@ export default function Profile({ navigation }) {
               style={styles.buttonLogOff}
               activeOpacity={0.7}
               onPress={() => {
-                setUser(false);
+                logOff()
                 navigation.goBack();
               }}
             >
