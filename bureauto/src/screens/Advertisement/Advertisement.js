@@ -1,12 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Image, Alert, TouchableOpacity, ScrollView } from "react-native";
+import {
+  View,
+  Text,
+  Image,
+  Alert,
+  TouchableOpacity,
+  ScrollView,
+} from "react-native";
 import { Icon } from "react-native-elements";
 import styles from "./Styles";
 import api from "../../services/api";
 import Loading from "../../components/Loading/Loading";
 import { useServer } from "../../contexts/ServerContext";
 import { useAuth } from "../../contexts/AuthContext";
-import ButtonBack from "../../components/ButtonBack/ButtonBack"
+import ButtonBack from "../../components/ButtonBack/ButtonBack";
 const logo = require("../../../assets/logo.png");
 
 export default function Advertisement({ route, navigation }) {
@@ -25,31 +32,30 @@ export default function Advertisement({ route, navigation }) {
       .then((res) => {
         setData(res.data.data);
         setLoading(false);
-        api.put(`/advertisement/views/${ad.adv_cod}`)
+        api.put(`/advertisement/views/${ad.adv_cod}`);
       })
       .catch((err) => {
         Alert.alert("Houve um erro ao tentar obter os anúncios!");
       });
   }
 
-
   function favorite() {
     !isFav
       ? api
-        .post("/favorite/register", { adv_cod: ad.adv_cod })
-        .then((res) => {
-          if (res.data.success) {
-            setIsFav(true);
-            setIcon("star");
-          }
-        })
-        .catch((err) => { })
+          .post("/favorite/register", { adv_cod: ad.adv_cod })
+          .then((res) => {
+            if (res.data.success) {
+              setIsFav(true);
+              setIcon("star");
+            }
+          })
+          .catch((err) => {})
       : api.delete(`/favorite/${ad.adv_cod}`).then((res) => {
-        if (res.data.success) {
-          setIcon("star-outline");
-          setIsFav(false);
-        }
-      });
+          if (res.data.success) {
+            setIcon("star-outline");
+            setIsFav(false);
+          }
+        });
   }
 
   function createChat() {
@@ -61,7 +67,10 @@ export default function Advertisement({ route, navigation }) {
           {
             text: "Ok",
           },
-          { text: "Login!", onPress: () => navigation.navigate("Login", { back: true }) },
+          {
+            text: "Login!",
+            onPress: () => navigation.navigate("Login", { back: true }),
+          },
         ]
       );
     } else {
@@ -87,7 +96,7 @@ export default function Advertisement({ route, navigation }) {
           setIcon("star");
         }
       })
-      .then((err) => { });
+      .then((err) => {});
   }
 
   useEffect(() => {
@@ -98,9 +107,23 @@ export default function Advertisement({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-
       <ScrollView contentContainerStyle={styles.infContainer}>
-        <ButtonBack onPress={() => navigation.goBack()} />
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-around",
+            width: "auto",
+            alignItems: "center",
+            marginRight: 20,
+          }}
+        >
+          <ButtonBack onPress={() => navigation.goBack()} />
+          {user && user.use_cod != data.adv_use_cod ? (
+            <></>
+          ) : (
+            <Icon name="edit" size={30} color="#2a6484" onPress={() => navigation.navigate("EditAdvertisement", {ad})}/>
+          )}
+        </View>
         <View style={styles.imageContainer}>
           {!data.adv_images ? (
             <Image source={logo} style={styles.image} />
@@ -181,4 +204,3 @@ export default function Advertisement({ route, navigation }) {
     </View>
   );
 }
-

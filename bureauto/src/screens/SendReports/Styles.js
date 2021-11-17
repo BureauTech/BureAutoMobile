@@ -13,6 +13,7 @@ const styles = StyleSheet.create({
     width: "80%",
     alignItems: "center",
     padding: 5,
+    marginVertical: 20
   },
   text: {
     fontWeight: "bold",

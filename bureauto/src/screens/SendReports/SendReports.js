@@ -23,13 +23,21 @@ export default function SendReports({ navigation }) {
   return (
     <View style={styles.container}>
       <ButtonBack onPress={() => navigation.goBack()} />
-      <View style={{ height: "90%", justifyContent: "center" }}>
+      <View style={{ height: "90%", justifyContent: "center", alignItems: "center" }}>
         <TouchableOpacity
           style={styles.buttonSend}
           activeOpacity={0.7}
           onPress={() => send()}
         >
           <Text style={styles.text}>Enviar relatórios por email</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity
+          style={styles.buttonSend}
+          activeOpacity={0.7}
+          onPress={() => navigation.navigate("ViewReports")}
+        >
+          <Text style={styles.text}>Vizualizar relatórios</Text>
         </TouchableOpacity>
       </View>
     </View>
