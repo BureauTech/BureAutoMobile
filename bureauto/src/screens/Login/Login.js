@@ -7,6 +7,7 @@ import styles from "./Styles";
 import api from "../../services/api";
 import ButtonBack from "../../components/ButtonBack/ButtonBack";
 const logo = require("../../../assets/logo.png");
+import Loading from "../../components/Loading/Loading";
 
 export default function Login({ route, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,6 +16,7 @@ export default function Login({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useAuth();
+  const [loading, setLoading] = useState(false)
 
   function showPass() {
     passVisible ? setPassVisible(false) : setPassVisible(true);
@@ -24,6 +26,7 @@ export default function Login({ route, navigation }) {
   }
 
   function handleSignIn() {
+    setLoading(true)
     const userLogin = {
       email,
       password,
@@ -33,6 +36,7 @@ export default function Login({ route, navigation }) {
       .post("/login", userLogin)
       .then((res) => {
         if (res.data.success) {
+          setLoading(false)
           setUser(res.data.user)
           saveLogin("bureautoLogin", JSON.stringify(res.data.user))
           if (res.data.user.use_is_temp_password) {
@@ -45,10 +49,12 @@ export default function Login({ route, navigation }) {
           }
 
         } else {
+          setLoading(false)
           Alert.alert("Email ou senha incorretos!");
         }
       })
       .catch((err) => {
+        setLoading(false)
         console.log(err)
         Alert.alert("Houve um erro ao tentar fazer login!");
       });
@@ -61,7 +67,7 @@ export default function Login({ route, navigation }) {
   async function deleteLogin(key) {
     await SecureStore.deleteItemAsync(key);
   }
-
+if (loading) return <Loading/>
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -92,7 +98,6 @@ export default function Login({ route, navigation }) {
                 </Pressable>
               </View>
             </Modal>
-
             <Text style={styles.text}>
               Insira seu e-mail e senha para continuar
             </Text>

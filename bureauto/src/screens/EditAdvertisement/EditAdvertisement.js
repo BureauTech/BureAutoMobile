@@ -13,7 +13,7 @@ export default function EditAdvertisement({ navigation, route }) {
   return (
     <WebView
       source={{
-        uri: server.replace(/.$/, "1") + "/editar-anuncio/" + ad.adv_cod,
+        uri: "https://front-bureauto.herokuapp.com" + "/editar-anuncio/" + ad.adv_cod,
       }}
       onNavigationStateChange={(e) => {
         if (e.canGoBack) {

@@ -37,7 +37,7 @@ export default function SendReports({ navigation }) {
           activeOpacity={0.7}
           onPress={() => navigation.navigate("ViewReports")}
         >
-          <Text style={styles.text}>Vizualizar relatórios</Text>
+          <Text style={styles.text}>Visualizar relatórios</Text>
         </TouchableOpacity>
       </View>
     </View>

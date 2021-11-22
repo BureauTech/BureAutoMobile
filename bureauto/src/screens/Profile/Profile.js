@@ -4,6 +4,7 @@ import { useAuth } from "../../contexts/AuthContext";
 import * as SecureStore from 'expo-secure-store';
 import styles from "./Styles";
 import ButtonBack from "../../components/ButtonBack/ButtonBack"
+import api from "../../services/api";
 
 export default function Profile({ navigation }) {
   const [user, setUser] = useAuth();
@@ -11,6 +12,7 @@ export default function Profile({ navigation }) {
   function logOff() {
     setUser(false);
     deleteLogin("bureautoLogin")
+    api.get("/logout")
   }
   async function deleteLogin(key) {
     await SecureStore.deleteItemAsync(key);

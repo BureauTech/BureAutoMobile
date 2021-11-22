@@ -20,7 +20,7 @@ import ViewReports from "../screens/ViewReports/ViewReports";
 
 export default function StackCustom() {
   return (
-    <Stack.Navigator initialRouteName="SetUrlServer">
+    <Stack.Navigator initialRouteName="Tab">
       <Stack.Screen
         name="SetUrlServer"
         component={SetUrlServer}

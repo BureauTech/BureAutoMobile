@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext } from "react";
 const ServerContext = createContext();
 
 export const ServerProvider = ({ children }) => {
-  const [server, setServer] = useState("");
+  const [server, setServer] = useState("https://api-bureauto.herokuapp.com");
 
   return (
     <ServerContext.Provider value={[server, setServer]}>

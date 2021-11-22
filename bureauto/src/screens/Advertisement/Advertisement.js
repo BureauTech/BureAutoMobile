@@ -118,10 +118,16 @@ export default function Advertisement({ route, navigation }) {
           }}
         >
           <ButtonBack onPress={() => navigation.goBack()} />
-          {user && user.use_cod != data.adv_use_cod ? (
-            <></>
+
+          {user && user.use_cod === data.adv_use_cod ? (
+            <Icon
+              name="edit"
+              size={30}
+              color="#2a6484"
+              onPress={() => navigation.navigate("EditAdvertisement", { ad })}
+            />
           ) : (
-            <Icon name="edit" size={30} color="#2a6484" onPress={() => navigation.navigate("EditAdvertisement", {ad})}/>
+            <></>
           )}
         </View>
         <View style={styles.imageContainer}>
