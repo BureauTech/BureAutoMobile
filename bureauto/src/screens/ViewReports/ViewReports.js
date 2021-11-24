@@ -14,7 +14,7 @@ export default function ViewReports({navigation}) {
         </View>
       <WebView
         source={{
-          uri: "https://front-bureauto.herokuapp.com" + "/relatorios",
+          uri: "https://bureauto.herokuapp.com" + "/relatorios",
         }}
       />
       </View>
