@@ -38,6 +38,8 @@ export default function Chat({ route, navigation }) {
       });
   }
 
+  console.log(chatMessages)
+
   useEffect(() => {
     socket.connect();
     getMessages();
@@ -57,7 +59,6 @@ export default function Chat({ route, navigation }) {
       })
       .catch((err) => Alert.alert("Erro ao enviar a mensagem"));
   }, []);
-
   return (
     <View style={styles.container}>
       <View style={styles.infoAd}>
@@ -68,11 +69,19 @@ export default function Chat({ route, navigation }) {
           <Icon name="arrow-back" size={40} color="#2a6484" />
         </TouchableOpacity>
         <View style={styles.infoAdContainer}>
-          <Text style={styles.text}>
-            {!chat.adv_model_description
-              ? ad.adv_model_description
-              : chat.adv_model_description}
-          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.text}>
+              {!chat.adv_model_description
+                ? ad.adv_model_description
+                : chat.adv_model_description}{" "}
+            </Text>
+            <Text style={styles.text}>
+              -{" "}
+              {user.use_nickname === chat.use_nickname
+                ? chat.use_nickname
+                : chat.adv_use_nickname}
+            </Text>
+          </View>
           <Text style={styles.text}>
             R${" "}
             {!chat.adv_value

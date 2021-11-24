@@ -6,7 +6,6 @@ import { useServer } from "../../contexts/ServerContext";
 import ButtonBack from "../../components/ButtonBack/ButtonBack";
 
 export default function ViewReports({navigation}) {
-  const [server, setServer] = useServer();
   return (
     <View style={{ flex: 1}}>
         <View style={{padding: 10}}>

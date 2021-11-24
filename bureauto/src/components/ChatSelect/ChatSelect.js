@@ -2,10 +2,12 @@ import React from "react";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 import styles from "./Styles";
 import { useServer } from "../../contexts/ServerContext";
+import { useAuth } from "../../contexts/AuthContext";
 const logoBureau = require("../../../assets/logo.png");
 
 export default function ChatSelect({ onPress, chatInfo }) {
   const [server, setServer] = useServer();
+  const [user, setUser] = useServer();
 
   return (
     <View style={styles.container}>
@@ -31,7 +33,12 @@ export default function ChatSelect({ onPress, chatInfo }) {
               .replace(/\B(?=(\d{3})+(?!\d))/g, ".")}
           </Text>
           <Text style={styles.lastMessage} numberOfLines={1}>
-            <Text style={styles.msgUser}>{chatInfo.use_name}</Text> : {chatInfo.last_message}
+            <Text style={styles.msgUser}>
+              {user.use_nickname === chatInfo.use_nickname
+                ? chatInfo.use_nickname
+                : chatInfo.adv_use_nickname}
+            </Text>{" "}
+            : {chatInfo.last_message}
           </Text>
         </View>
       </TouchableOpacity>

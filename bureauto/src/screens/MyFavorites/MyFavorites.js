@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, FlatList } from "react-native";
+import { View, Text, FlatList, Alert } from "react-native";
 import styles from "./Styles";
 import api from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
@@ -22,7 +22,7 @@ export default function MyFavorites({navigation }) {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        Alert.alert("Erro ao obter os favoritos!")
       });
   }
 

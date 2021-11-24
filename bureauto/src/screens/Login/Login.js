@@ -1,7 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, TextInput, TouchableOpacity, TouchableWithoutFeedback, Keyboard, SafeAreaView, Image, Modal, Alert, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableWithoutFeedback,
+  Keyboard,
+  SafeAreaView,
+  Image,
+  Modal,
+  Alert,
+  Pressable,
+} from "react-native";
 import { Icon } from "react-native-elements";
-import * as SecureStore from 'expo-secure-store';
+import * as SecureStore from "expo-secure-store";
 import { useAuth } from "../../contexts/AuthContext";
 import styles from "./Styles";
 import api from "../../services/api";
@@ -16,7 +28,7 @@ export default function Login({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useAuth();
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
   function showPass() {
     passVisible ? setPassVisible(false) : setPassVisible(true);
@@ -26,7 +38,7 @@ export default function Login({ route, navigation }) {
   }
 
   function handleSignIn() {
-    setLoading(true)
+    setLoading(true);
     const userLogin = {
       email,
       password,
@@ -36,26 +48,23 @@ export default function Login({ route, navigation }) {
       .post("/login", userLogin)
       .then((res) => {
         if (res.data.success) {
-          setLoading(false)
-          setUser(res.data.user)
-          saveLogin("bureautoLogin", JSON.stringify(res.data.user))
+          setLoading(false);
+          setUser(res.data.user);
+          saveLogin("bureautoLogin", JSON.stringify(res.data.user));
           if (res.data.user.use_is_temp_password) {
-            navigation.navigate("ChangePassword")
-            deleteLogin("bureautoLogin")
-            setUser("")
+            navigation.navigate("ChangePassword");
+            deleteLogin("bureautoLogin");
+            setUser("");
           } else {
-            if (route)
-              navigation.goBack()
+            if (route) navigation.goBack();
           }
-
         } else {
-          setLoading(false)
+          setLoading(false);
           Alert.alert("Email ou senha incorretos!");
         }
       })
       .catch((err) => {
-        setLoading(false)
-        console.log(err)
+        setLoading(false);
         Alert.alert("Houve um erro ao tentar fazer login!");
       });
   }
@@ -67,7 +76,7 @@ export default function Login({ route, navigation }) {
   async function deleteLogin(key) {
     await SecureStore.deleteItemAsync(key);
   }
-if (loading) return <Loading/>
+  if (loading) return <Loading />;
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
@@ -128,7 +137,11 @@ if (loading) return <Loading/>
               >
                 <Icon name={passIcon} type="material" color="#2A6484" />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonPass} activeOpacity={0.9} onPress={() => navigation.navigate("ForgotPassword")}>
+              <TouchableOpacity
+                style={styles.buttonPass}
+                activeOpacity={0.9}
+                onPress={() => navigation.navigate("ForgotPassword")}
+              >
                 <Text style={styles.text}>Esqueci a senha</Text>
               </TouchableOpacity>
             </View>
