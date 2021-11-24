@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://api-bureauto.herokuapp.com",
+  baseURL: "https://bureauto-backend.herokuapp.com",
 });
 
 export default api;

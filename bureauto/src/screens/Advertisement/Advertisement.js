@@ -104,20 +104,21 @@ export default function Advertisement({ route, navigation }) {
   }, []);
 
   if (loading) return <Loading />;
-
   return (
     <View style={styles.container}>
       <ScrollView contentContainerStyle={styles.infContainer}>
         <View
           style={{
             flexDirection: "row",
-            justifyContent: "space-around",
+            justifyContent: "space-between",
             width: "auto",
             alignItems: "center",
-            marginRight: 20,
+            marginRight: 20
           }}
         >
-          <ButtonBack onPress={() => navigation.goBack()} />
+          <View >
+            <ButtonBack onPress={() => navigation.goBack()} />
+          </View>
 
           {user && user.use_cod === data.adv_use_cod ? (
             <Icon

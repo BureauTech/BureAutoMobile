@@ -61,7 +61,7 @@ export default function MyFavorites({navigation }) {
         <View style={styles.notAdContainer}>
           <ButtonBack onPress={() => navigation.goBack()}/>
           <View style={{height: "90%", justifyContent: "center"}}>
-            <Text style={styles.textNotAd}>Voce não possui anúncios</Text>
+            <Text style={styles.textNotAd}>Voce não possui anúncios favoritados</Text>
             </View>
         </View>
       )}
