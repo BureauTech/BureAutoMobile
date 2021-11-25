@@ -12,12 +12,43 @@ Versão mobile da [BureAuto](https://github.com/BureauTech/BureAuto)
 
 ## Aplicação 
 
-- Gif com a aplicação em execução (Versão para computador e aplicativo mobile)
+- Gif com a aplicação em execução
+  
 <div align="center">
   <img src="./doc/gif/sprint-3.gif" />
 </div>
 
 <br>
+
+# Como executar
+
+Para executar a aplicação você pode seguir um dos passos abaixo:
+  * Fazer o [download]() do aplicativo para Android 
+  * Fazer download do aplicativo [Expo](https://expo.dev/client) na sua loja de aplicativos e escanear dentro do aplicativo o Código QR abaixo:
+
+
+<div align="center">
+  <img src="./doc/img/qr_expo.png"/>
+</div>
+
+
+# Tecnologias
+As seguintes ferramenta foram usadas na construção do projeto:
+
+* [NodeJs](https://nodejs.org/)
+  
+Bibliotecas:
+
+* [expo](https://docs.expo.dev/)
+* [react-native](https://reactnative.dev/)
+* [axios](https://reactnative.dev/)
+* [react-native-elements](https://reactnativeelements.com/)
+* [socket.io-client](https://www.npmjs.com/package/react-native-socket.io-client)
+* [react-native-webview](https://www.npmjs.com/package/react-native-webview)
+* [react-native-gifted-chat](https://www.npmjs.com/package/react-native-gifted-chat)
+* [lottie](https://docs.expo.dev/versions/latest/sdk/lottie/)
+* [expo-secure-store](https://docs.expo.dev/versions/v43.0.0/sdk/securestore/)
+
 
 # Autores
 
