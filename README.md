@@ -38,7 +38,7 @@ Para executar a aplicação no seu dispositivo (android/iOS), é necessário ter
 Este será o código QR disponível no link:
 
 <div align="center">
-  <img src="./doc/img/qr-code.png" width="70%"/>
+  <img src="./doc/img/qr-code.png" width="30%"/>
 </div>
 
 # Como executar localmente
