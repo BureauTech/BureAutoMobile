@@ -10,28 +10,10 @@ Desenvolvido pela [BureauTech](https://github.com/BureauTech).
 
 Versão mobile da [BureAuto](https://github.com/BureauTech/BureAuto)
 
-
-# Sumário
-
-   * [Sobre](#bureauto)
-   * [Sumário](#sumário)
-   * [Entregas](#entregas)
-        * [Modelagem de Dados](#modelagem-de-dados)
-      * [Burndown](#burndown)
-      * [Documentações](#documentações)
-   * [Como executar localmente](#como-executar-localmente)
-      * [Pré-Requisitos](#pré-requisitos)
-      * [Servidor](#servidor)
-      * [Cliente](#cliente)
-   * [Testes da Aplicação](#testes-da-aplicação)
-   * [Tecnologias](#tecnologias)
-   * [Autores](#autores)
-
 # Sumário
 
 - [BureAuto Mobile](#bureauto-mobile)
 - [Sumário](#sumário)
-- [Sumário](#sumário-1)
   - [Aplicação](#aplicação)
 - [Como executar localmente](#como-executar-localmente)
     - [Pré-requisitos:](#pré-requisitos)
