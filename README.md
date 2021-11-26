@@ -10,6 +10,34 @@ Desenvolvido pela [BureauTech](https://github.com/BureauTech).
 
 Versão mobile da [BureAuto](https://github.com/BureauTech/BureAuto)
 
+
+# Sumário
+
+   * [Sobre](#bureauto)
+   * [Sumário](#sumário)
+   * [Entregas](#entregas)
+        * [Modelagem de Dados](#modelagem-de-dados)
+      * [Burndown](#burndown)
+      * [Documentações](#documentações)
+   * [Como executar localmente](#como-executar-localmente)
+      * [Pré-Requisitos](#pré-requisitos)
+      * [Servidor](#servidor)
+      * [Cliente](#cliente)
+   * [Testes da Aplicação](#testes-da-aplicação)
+   * [Tecnologias](#tecnologias)
+   * [Autores](#autores)
+
+# Sumário
+
+- [BureAuto Mobile](#bureauto-mobile)
+- [Sumário](#sumário)
+- [Sumário](#sumário-1)
+  - [Aplicação](#aplicação)
+- [Como executar localmente](#como-executar-localmente)
+    - [Pré-requisitos:](#pré-requisitos)
+- [Tecnologias](#tecnologias)
+- [Autores](#autores)
+
 ## Aplicação 
 
 - Gif com a aplicação em execução
@@ -20,12 +48,35 @@ Versão mobile da [BureAuto](https://github.com/BureauTech/BureAuto)
 
 <br>
 
-# Como executar
+# Como executar localmente
 
-Para executar a aplicação você pode seguir um dos passos abaixo:
-  * Fazer o [download]() do aplicativo para Android 
-  * Fazer download do aplicativo [Expo](https://expo.dev/client) na sua loja de aplicativos e escanear dentro do aplicativo o Código QR abaixo:
+Para executar a aplicação completa localmente, siga as intruções a seguir:
 
+### Pré-requisitos:
+
+Antes de começar, você vai precisar ter instalado em sua máquina as seguintes ferramentas:
+
+```
+NodeJS - Versão: 15.x.x
+React Native + Expo - SDK Versão 42
+```
+
+Para executar a aplicação no computador, acesse a pasta [***bureauto/***](/bureauto) e execute os comandos:
+
+```
+npm install
+npm run start
+```
+
+Abrirá uma janela do seu navegador, com um código QR.
+
+Para executar a aplicação no seu dispositivo (android/iOS), é necessário ter instalado o [Expo](https://expo.dev/client), e então, com o aplicativo aberto, ler o código QR que foi gerado, anteriormente.
+
+Para Android, também é possível baixar o aplicativo (APK) diretamente pelo link abaixo.
+
+[Bureauto Mobile]()
+
+É importante ter autorizado a instalação de aplicativos de terceiros pelas configurações do seu dispositivo Android.
 
 <div align="center">
   <img src="./doc/img/qr_expo.png"/>
@@ -48,7 +99,6 @@ Bibliotecas:
 * [react-native-gifted-chat](https://www.npmjs.com/package/react-native-gifted-chat)
 * [lottie](https://docs.expo.dev/versions/latest/sdk/lottie/)
 * [expo-secure-store](https://docs.expo.dev/versions/v43.0.0/sdk/securestore/)
-
 
 # Autores
 
