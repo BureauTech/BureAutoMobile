@@ -14,14 +14,14 @@ Versão mobile da [BureAuto](https://github.com/BureauTech/BureAuto)
 
 - [BureAuto Mobile](#bureauto-mobile)
 - [Sumário](#sumário)
-  - [Aplicação](#aplicação)
+- [Aplicação](#aplicação)
 - [Instalação](#instalação)
 - [Como executar localmente](#como-executar-localmente)
     - [Pré-requisitos:](#pré-requisitos)
 - [Tecnologias](#tecnologias)
 - [Autores](#autores)
 
-## Aplicação 
+# Aplicação 
 
 - Gif com a aplicação em execução
   
@@ -38,7 +38,7 @@ Para executar a aplicação no seu dispositivo (android/iOS), é necessário ter
 Este será o código QR disponível no link:
 
 <div align="center">
-  <img src="./doc/img/qr_expo.png"/>
+  <img src="./doc/img/qr-code.png" width="70%"/>
 </div>
 
 # Como executar localmente
