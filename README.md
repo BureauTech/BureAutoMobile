@@ -33,9 +33,13 @@ Versão mobile da [BureAuto](https://github.com/BureauTech/BureAuto)
 
 # Instalação
 
-Para executar a aplicação no seu dispositivo (android/iOS), é necessário ter instalado o [Expo](https://expo.dev/client), e então, com o aplicativo aberto, ler o código QR disponível neste link: [Visualizar Código QR](https://expo.dev/@caiquesjc/bureauto)
+Para executar a aplicação no seu dispositivo (android/iOS), é necessário ter instalado o [Expo](https://expo.dev/client), e então, com o aplicativo aberto, ler o código QR disponível neste link: [Visualizar Código QR](https://expo.dev/@caiquesjc/bureauto).
 
-https://expo.dev/@caiquesjc/bureauto
+Este será o código QR disponível no link:
+
+<div align="center">
+  <img src="./doc/img/qr_expo.png"/>
+</div>
 
 # Como executar localmente
 
@@ -61,15 +65,12 @@ Abrirá uma janela do seu navegador, com um código QR.
 
 Para executar a aplicação no seu dispositivo (android/iOS), é necessário ter instalado o [Expo](https://expo.dev/client), e então, com o aplicativo aberto, ler o código QR que foi gerado, anteriormente.
 
+
 Para Android, também é possível baixar o aplicativo (APK) diretamente pelo link abaixo.
 
 [Bureauto Mobile](https://bit.ly/BureautoMobile)
 
 É importante ter autorizado a instalação de aplicativos de terceiros pelas configurações do seu dispositivo Android.
-
-<div align="center">
-  <img src="./doc/img/qr_expo.png"/>
-</div>
 
 
 # Tecnologias
