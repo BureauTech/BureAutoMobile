@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, FlatList } from "react-native";
-
+import { View, Text, FlatList, Alert } from "react-native";
+import styles from "./Styles";
 import api from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
 import Advertisement from "../../components/Advertisement/Advertisement";
 import Loading from "../../components/Loading/Loading";
+import ButtonBack from "../../components/ButtonBack/ButtonBack"
 
 export default function MyFavorites({navigation }) {
   const [user, setUser] = useAuth();
   const [data, setData] = useState([]);
   const [refresh, setRefresh] = useState(false);
   const [loading, setLoading] = useState(true);
-
+  
   function getFavoritesByUSer() {
     api
       .get(`/favorite/favorites/${user.use_cod}`)
@@ -21,7 +22,7 @@ export default function MyFavorites({navigation }) {
         setLoading(false);
       })
       .catch((err) => {
-        console.log(err);
+        Alert.alert("Erro ao obter os favoritos!")
       });
   }
 
@@ -39,6 +40,7 @@ export default function MyFavorites({navigation }) {
     <View style={styles.container}>
       {data.length ? (
         <View style={styles.conatinerAds}>
+          <ButtonBack onPress={() => navigation.goBack()}/>
           <FlatList
             onRefresh={() => handleRefresh()}
             refreshing={refresh}
@@ -57,38 +59,12 @@ export default function MyFavorites({navigation }) {
         </View>
       ) : (
         <View style={styles.notAdContainer}>
-          <Text style={styles.textNotAd}>Voce não possui anúncios</Text>
+          <ButtonBack onPress={() => navigation.goBack()}/>
+          <View style={{height: "90%", justifyContent: "center"}}>
+            <Text style={styles.textNotAd}>Voce não possui anúncios favoritados</Text>
+            </View>
         </View>
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#cdd8de",
-  },
-  conatinerAds: {
-    width: "90%",
-    height: "100%",
-    marginBottom: 20,
-    paddingTop: 20,
-    marginTop: 30,
-  },
-  notAdContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    backgroundColor: "#ffffff",
-    width: "100%",
-  },
-  textNotAd: {
-    fontFamily: "Roboto",
-    fontSize: 20,
-    color: "#2a6484",
-    fontWeight: "bold",
-  },
-});

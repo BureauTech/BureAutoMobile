@@ -1,14 +1,8 @@
 import React, { useEffect, useCallback, useState } from "react";
-import {
-  Alert,
-  View,
-  Text,
-  StyleSheet,
-  TouchableOpacity,
-} from "react-native";
+import { Alert, View, Text, TouchableOpacity } from "react-native";
 import io from "socket.io-client";
 import { Icon } from "react-native-elements";
-
+import styles from "./Styles";
 import { useAuth } from "../../contexts/AuthContext";
 import { useServer } from "../../contexts/ServerContext";
 import { GiftedChat, Send } from "react-native-gifted-chat";
@@ -44,6 +38,8 @@ export default function Chat({ route, navigation }) {
       });
   }
 
+  console.log(chatMessages)
+
   useEffect(() => {
     socket.connect();
     getMessages();
@@ -63,7 +59,6 @@ export default function Chat({ route, navigation }) {
       })
       .catch((err) => Alert.alert("Erro ao enviar a mensagem"));
   }, []);
-
   return (
     <View style={styles.container}>
       <View style={styles.infoAd}>
@@ -74,11 +69,19 @@ export default function Chat({ route, navigation }) {
           <Icon name="arrow-back" size={40} color="#2a6484" />
         </TouchableOpacity>
         <View style={styles.infoAdContainer}>
-          <Text style={styles.text}>
-            {!chat.adv_model_description
-              ? ad.adv_model_description
-              : chat.adv_model_description}
-          </Text>
+          <View style={{ flexDirection: "row" }}>
+            <Text style={styles.text}>
+              {!chat.adv_model_description
+                ? ad.adv_model_description
+                : chat.adv_model_description}{" "}
+            </Text>
+            <Text style={styles.text}>
+              -{" "}
+              {user.use_nickname === chat.use_nickname
+                ? chat.use_nickname
+                : chat.adv_use_nickname}
+            </Text>
+          </View>
           <Text style={styles.text}>
             R${" "}
             {!chat.adv_value
@@ -100,7 +103,7 @@ export default function Chat({ route, navigation }) {
         renderSend={(props) => {
           return (
             <Send {...props} containerStyle={styles.sendContainer}>
-              <Icon name="send" color="#2a6484"/>
+              <Icon name="send" color="#2a6484" />
             </Send>
           );
         }}
@@ -108,45 +111,3 @@ export default function Chat({ route, navigation }) {
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: "space-around",
-  },
-  infoAd: {
-    height: "10%",
-    //padding: 5,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    borderBottomWidth: 2,
-    borderBottomColor: "#2a6484",
-    marginTop: 10,
-  },
-  text: {
-    fontWeight: "bold",
-    fontSize: 20,
-    color: "#2a6484",
-  },
-  messagesContainer: {
-    //borderWidth: 2,
-    //borderColor: "#2a6484"
-  },
-  iconContainer: {
-    width: "auto",
-    justifyContent: "center",
-    height: "100%",
-  },
-  infoAdContainer: {
-    width: "90%",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  sendContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    alignSelf: "center",
-    marginRight: 15,
-  },
-});

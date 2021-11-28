@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import api from "../../services/api";
 import { useAuth } from "../../contexts/AuthContext";
-
 import Advertisement from "../../components/Advertisement/Advertisement";
 import Loading from "../../components/Loading/Loading";
+import ButtonBack from "../../components/ButtonBack/ButtonBack";
+import styles from "./Styles";
 
 export default function MyAdvertisements({ navigation }) {
   const [user, setUser] = useAuth();
@@ -21,7 +22,7 @@ export default function MyAdvertisements({ navigation }) {
         setRefresh(false);
         setLoading(false);
       })
-      .catch((err) => {});
+      .catch((err) => { });
   }
 
   function handleRefresh() {
@@ -38,6 +39,7 @@ export default function MyAdvertisements({ navigation }) {
     <View style={styles.container}>
       {data.length ? (
         <View style={styles.conatinerAds}>
+          <ButtonBack onPress={() => navigation.goBack()} />
           <FlatList
             onRefresh={() => handleRefresh()}
             refreshing={refresh}
@@ -56,38 +58,12 @@ export default function MyAdvertisements({ navigation }) {
         </View>
       ) : (
         <View style={styles.notAdContainer}>
-          <Text style={styles.textNotAd}>Voce não possui anúncios</Text>
+          <ButtonBack onPress={() => navigation.goBack()} />
+          <View style={{ height: "90%", justifyContent: "center" }}>
+            <Text style={styles.textNotAd}>Voce não possui anúncios</Text>
+          </View>
         </View>
       )}
     </View>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#cdd8de"
-  },
-  conatinerAds: {
-    width: "90%",
-    height: "100%",
-    marginBottom: 20,
-    paddingTop: 20,
-    marginTop: 30,
-  },
-  notAdContainer: {
-    justifyContent: "center",
-    alignItems: "center",
-    flex: 1,
-    backgroundColor: "#ffffff",
-    width: "100%",
-  },
-  textNotAd: {
-    fontFamily: "Roboto",
-    fontSize: 20,
-    color: "#2a6484",
-    fontWeight: "bold",
-  },
-});

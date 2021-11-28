@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {
   View,
-  StyleSheet,
   Text,
   TextInput,
   TouchableOpacity,
@@ -11,14 +10,16 @@ import {
   Image,
   Modal,
   Alert,
-  Pressable
+  Pressable,
 } from "react-native";
 import { Icon } from "react-native-elements";
+import * as SecureStore from "expo-secure-store";
 import { useAuth } from "../../contexts/AuthContext";
-
+import styles from "./Styles";
 import api from "../../services/api";
-
+import ButtonBack from "../../components/ButtonBack/ButtonBack";
 const logo = require("../../../assets/logo.png");
+import Loading from "../../components/Loading/Loading";
 
 export default function Login({ route, navigation }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -27,6 +28,7 @@ export default function Login({ route, navigation }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [user, setUser] = useAuth();
+  const [loading, setLoading] = useState(false);
 
   function showPass() {
     passVisible ? setPassVisible(false) : setPassVisible(true);
@@ -36,6 +38,7 @@ export default function Login({ route, navigation }) {
   }
 
   function handleSignIn() {
+    setLoading(true);
     const userLogin = {
       email,
       password,
@@ -45,29 +48,40 @@ export default function Login({ route, navigation }) {
       .post("/login", userLogin)
       .then((res) => {
         if (res.data.success) {
-          setUser(res.data.user)
-          if(res.data.user.use_is_temp_password) {
-            navigation.navigate("ChangePassword")
-            setUser("")
+          setLoading(false);
+          setUser(res.data.user);
+          saveLogin("bureautoLogin", JSON.stringify(res.data.user));
+          if (res.data.user.use_is_temp_password) {
+            navigation.navigate("ChangePassword");
+            deleteLogin("bureautoLogin");
+            setUser("");
           } else {
-            if(route)
-            navigation.goBack()
+            if (route) navigation.goBack();
           }
-          
         } else {
+          setLoading(false);
           Alert.alert("Email ou senha incorretos!");
         }
       })
       .catch((err) => {
-        console.log(err)
+        setLoading(false);
         Alert.alert("Houve um erro ao tentar fazer login!");
       });
   }
 
+  async function saveLogin(key, value) {
+    await SecureStore.setItemAsync(key, value);
+  }
+
+  async function deleteLogin(key) {
+    await SecureStore.deleteItemAsync(key);
+  }
+  if (loading) return <Loading />;
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
+          {route ? <ButtonBack onPress={() => navigation.goBack()} /> : <></>}
           <View style={styles.containerImg}>
             <Image style={styles.logo} source={logo} />
           </View>
@@ -93,7 +107,6 @@ export default function Login({ route, navigation }) {
                 </Pressable>
               </View>
             </Modal>
-
             <Text style={styles.text}>
               Insira seu e-mail e senha para continuar
             </Text>
@@ -124,7 +137,11 @@ export default function Login({ route, navigation }) {
               >
                 <Icon name={passIcon} type="material" color="#2A6484" />
               </TouchableOpacity>
-              <TouchableOpacity style={styles.buttonPass} activeOpacity={0.9} onPress={() => navigation.navigate("ForgotPassword")}>
+              <TouchableOpacity
+                style={styles.buttonPass}
+                activeOpacity={0.9}
+                onPress={() => navigation.navigate("ForgotPassword")}
+              >
                 <Text style={styles.text}>Esqueci a senha</Text>
               </TouchableOpacity>
             </View>
@@ -152,90 +169,3 @@ export default function Login({ route, navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "space-between",
-    width: "100%",
-    height: "100%",
-    backgroundColor: "#fff",
-    padding: 5,
-  },
-  content: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    borderColor: "#2A6484",
-    borderWidth: 2,
-    borderRadius: 50,
-    height: "50%",
-    backgroundColor: "#fff",
-  },
-  input: {
-    width: "70%",
-    borderWidth: 1,
-    marginTop: 20,
-    borderColor: "#2a6484",
-    borderRadius: 20,
-    padding: 10,
-  },
-  text: {
-    color: "#2a6484",
-  },
-  button: {
-    borderWidth: 1,
-    borderColor: "#2a6484",
-    width: "50%",
-    padding: 10,
-    marginTop: 20,
-    borderRadius: 20,
-    alignItems: "center",
-  },
-  containerImg: {
-    height: "20%",
-  },
-  logo: {
-    width: 200,
-    height: 100,
-  },
-  footer: {
-    flexDirection: "row",
-    justifyContent: "space-around",
-    width: "70%",
-    marginTop: 10,
-  },
-  buttonPassCont: {
-    width: "70%",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    paddingHorizontal: 10,
-  },
-  buttonPass: {
-    width: "auto",
-    marginTop: 5,
-  },
-  viewModal: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#fff",
-  },
-  buttonClose: {
-    borderWidth: 1,
-    borderRadius: 15,
-    paddingVertical: 5,
-    margin: 20,
-    borderColor: "#2a6484",
-    width: "20%",
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  txtModal: {
-    color: "#2a6484",
-    textAlign: "center",
-    fontSize: 22,
-  },
-});

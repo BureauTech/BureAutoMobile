@@ -2,14 +2,17 @@ import React, { useEffect, useState } from "react";
 import {
   View,
   FlatList,
-  StyleSheet,
   Alert,
   SafeAreaView,
   Keyboard,
   TouchableWithoutFeedback,
+  TouchableOpacity,
+  Text,
 } from "react-native";
+import * as SecureStore from "expo-secure-store";
 import api from "../../services/api";
-
+import { useAuth } from "../../contexts/AuthContext";
+import styles from "./Styles";
 import Advertisement from "../../components/Advertisement/Advertisement";
 import Loading from "../../components/Loading/Loading";
 import Search from "../../components/Search/Search";
@@ -19,43 +22,44 @@ export default function Advertisements({ navigation }) {
   const [data, setData] = useState();
   const [loading, setLoading] = useState(true);
   const [textValue, setTextValue] = useState("");
+  const [paginationPages, setPaginationPages] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [user, setUser] = useAuth();
 
-  function getAds() {
+  function getAds(curPage) {
     setLoading(true);
     api
-      .get("/advertisement/all")
+      .get(`/advertisement/all?page=${curPage || 1}&items=${itemsPerPage}`)
       .then((res) => {
         setData(res.data.data);
         setRefresh(false);
         setLoading(false);
       })
       .catch((err) => {
-        Alert.alert(
-          "Erro!",
-          "Houve um erro ao tentar obter os anúncios!",
-          [
-            {
-              text: "Tentar novamente!",
-              onPress: () => getAds(),
-            },
-            { text: "Voltar!", onPress: () => navigation.goBack() },
-          ]
-        );
+        Alert.alert("Erro!", "Houve um erro ao tentar obter os anúncios!", [
+          {
+            text: "Tentar novamente!",
+            onPress: () => getAds(),
+          },
+          { text: "Voltar!", onPress: () => navigation.goBack() },
+        ]);
         setLoading(true);
       });
   }
 
   function handleRefresh() {
+    setCurrentPage(1);
     setData([]);
     setRefresh(true);
-    getAds();
+    getAds(1);
   }
 
   function searchAds(term) {
     setLoading(true);
     term
       ? api
-          .get(`/advertisement/search/${JSON.stringify({term: term})}`)
+          .get(`/advertisement/search/${JSON.stringify({ term: term })}`)
           .then((res) => {
             Keyboard.dismiss();
             if (res.data.data.length) {
@@ -68,29 +72,63 @@ export default function Advertisements({ navigation }) {
           })
           .catch((err) => {
             Alert.alert("Houve um erro ao tentar obter os anúncios!");
-            setLoading(true);
+            handleRefresh(true);
           })
-      : Alert.alert("Digite algo para pesquisar!");
+      : getAds();
     setLoading(false);
   }
 
+  function loadMoreAds() {
+    api
+      .get(`/advertisement/all?page=${currentPage + 1}&items=${itemsPerPage}`)
+      .then((res) => {
+        setData([...data, ...res.data.data]);
+        setCurrentPage(currentPage + 1);
+      });
+  }
+
+  async function getLoginSaved() {
+    let result = await SecureStore.getItemAsync("bureautoLogin");
+    if (result) {
+      setUser(JSON.parse(result));
+    }
+  }
+
+  function logOff() {
+    setUser(false);
+    deleteLogin("bureautoLogin");
+    api.get("/logout");
+  }
+  async function deleteLogin(key) {
+    await SecureStore.deleteItemAsync(key);
+  }
+
+  function verifyLogged() {
+    api.get("/auth").then((res) => {
+      if (!res.data.success) {
+        logOff();
+      }
+    });
+  }
   useEffect(() => {
     getAds();
+    verifyLogged()
+    getLoginSaved();
   }, []);
 
-  //if (loading) return <Loading />;
+  if (loading) return <Loading />;
   return (
     <SafeAreaView style={styles.container}>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View style={styles.container}>
-          <View style={styles.searchContainer}>
+          <View>
             <Search
               setTextValue={setTextValue}
               textValue={textValue}
               onPress={() => searchAds(textValue)}
             />
           </View>
-          <View style={styles.conatinerAds}>
+          <View style={styles.containerAds}>
             <FlatList
               onRefresh={() => handleRefresh()}
               refreshing={refresh}
@@ -105,6 +143,8 @@ export default function Advertisements({ navigation }) {
               )}
               keyExtractor={(item, index) => index.toString()}
               showsVerticalScrollIndicator={false}
+              onEndReached={loadMoreAds}
+              onEndReachedThreshold={0.5}
             />
           </View>
         </View>
@@ -112,23 +152,3 @@ export default function Advertisements({ navigation }) {
     </SafeAreaView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#cdd8de",
-    marginTop: 5,
-  },
-  conatinerAds: {
-    width: "90%",
-    height: "85%",
-    marginBottom: 20,
-    paddingTop: 20,
-    //marginTop: 20,
-  },
-  searchContainer: {
-    marginTop: 20,
-  },
-});
