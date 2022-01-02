@@ -11,7 +11,6 @@ Desenvolvido pela [BureauTech](https://github.com/BureauTech).
 Versão mobile da [BureAuto](https://github.com/BureauTech/BureAuto)
 
 # Sumário
-
 - [BureAuto Mobile](#bureauto-mobile)
 - [Sumário](#sumário)
 - [Aplicação](#aplicação)
